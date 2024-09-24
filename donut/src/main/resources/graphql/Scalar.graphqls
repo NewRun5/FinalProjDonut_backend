@@ -1,2 +1,3 @@
 scalar LocalDate
 scalar LocalDateTime
+scalar Base64File

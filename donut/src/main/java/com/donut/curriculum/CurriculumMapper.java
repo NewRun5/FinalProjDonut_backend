@@ -1,4 +1,4 @@
-package com.donut.curriculum.mapper;
+package com.donut.curriculum;
 
 public interface CurriculumMapper {
 }

@@ -1,4 +1,4 @@
-package com.donut.curriculum.controller;
+package com.donut.curriculum;
 
 import org.springframework.stereotype.Controller;
 

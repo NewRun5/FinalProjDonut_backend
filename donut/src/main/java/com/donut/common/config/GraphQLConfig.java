@@ -11,11 +11,13 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 public class GraphQLConfig {
     private final GraphQLScalarType localDateScalar;
     private final GraphQLScalarType localDateTimeScalarType;
+    private final GraphQLScalarType base64FileScalar;
 
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return builder -> builder
                 .scalar(localDateScalar)
-                .scalar(localDateTimeScalarType);
+                .scalar(localDateTimeScalarType)
+                .scalar(base64FileScalar);
     }
 }

@@ -1,11 +1,16 @@
-package com.donut.user.controller;
+package com.donut.user;
 
-import com.donut.user.dto.UserDTO;
-import com.donut.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,4 +22,6 @@ public class UserController {
         UserDTO resultUser = userService.findUserByUserId(userId);
         return resultUser;
     }
+
+
 }

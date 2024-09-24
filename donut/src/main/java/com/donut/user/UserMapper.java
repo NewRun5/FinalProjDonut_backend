@@ -1,6 +1,5 @@
-package com.donut.user.mapper;
+package com.donut.user;
 
-import com.donut.user.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

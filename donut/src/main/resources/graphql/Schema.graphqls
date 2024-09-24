@@ -1,1 +1,4 @@
 type Query{}
+type Mutation{
+    inputFileTest(file: Base64File): Boolean
+}

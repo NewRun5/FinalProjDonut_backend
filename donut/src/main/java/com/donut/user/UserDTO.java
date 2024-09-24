@@ -1,6 +1,6 @@
-package com.donut.user.dto;
+package com.donut.user;
 
-import com.donut.curriculum.dto.CurriculumDTO;
+import com.donut.curriculum.CurriculumDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

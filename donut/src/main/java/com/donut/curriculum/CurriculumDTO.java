@@ -1,4 +1,4 @@
-package com.donut.curriculum.dto;
+package com.donut.curriculum;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,5 @@
-package com.donut.user.service;
+package com.donut.user;
 
-import com.donut.user.dto.UserDTO;
-import com.donut.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
