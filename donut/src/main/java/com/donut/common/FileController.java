@@ -15,6 +15,7 @@ public class FileController {
     /**
      * 파일 저장 테스트용 메소드입니다.
      * 클라이언트에서는 Base64 문자열 처리하여 보내면 됩니다.
+     * 확장자, 원본 이름 등의 메타데이터 있으면 좀 더 정교하게 저장 가능합니다.
      * @param file : 클라이언트 (Base64 문자열) -> 서버 File 객체
      * @return : 완료시 true 반환
      * @throws IOException : 파일 저장 오류
