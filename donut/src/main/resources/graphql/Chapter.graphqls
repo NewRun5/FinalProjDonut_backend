@@ -1,0 +1,10 @@
+type Chapter {
+    id: ID!
+    curriculum: Curriculum!
+    title: String!
+    description: String!
+    content: String!
+    summaryNote: String
+    completeDate: LocalDate
+    chatHistories: [ChatHistory]
+}

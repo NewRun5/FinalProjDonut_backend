@@ -1,0 +1,38 @@
+spring:
+  graphql:
+    path: /graphql
+  application:
+    name: donut
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/donut
+    username: donut
+    password: donut
+  data:
+    mongodb:
+#      임시입니다.
+      uri: mongodb+srv://junowol6:yzdDF61dZjtdoazP@donut.7868q.mongodb.net/donut
+  ai:
+    vectorstore:
+      mongodb:
+        collection-name: documents
+        initialize-schema: false
+        path-name: embedding
+        indexName: vector_index
+        weight:
+          vectorscore: 1.0
+          textscore: 0.5
+    openai:
+#      api 키 환경설정 필요
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-3.5-turbo-0125
+      embedding:
+        options:
+          model: text-embedding-3-small
+# 마이바티스 설정
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

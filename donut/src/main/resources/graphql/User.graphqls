@@ -1,0 +1,11 @@
+type User {
+    id: ID!
+    password: String
+    nickname: String!
+    email: String
+    signupDate: LocalDate
+    curriculums: [Curriculum]
+}
+extend type Query {
+    getUserByUserId(userId: String):User
+}

@@ -1,0 +1,10 @@
+type Curriculum {
+    id: ID!
+    user: User!
+    title: String!
+    description: String!
+    image_path: String!
+    progress: Float!
+    createDate: LocalDate!
+    chapters: [Chapter]
+}
