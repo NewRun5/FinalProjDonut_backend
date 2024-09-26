@@ -77,7 +77,9 @@ public class QuestionChatBotHandler extends TextWebSocketHandler {
         String request = message.getPayload();
         /* 챗봇 컴포넌트 활용해서 답변 생성.
         * 랭그래프는 이곳에 적용하시면 됩니다. */
-        String response = chatBotComponent.getChatResponse(memory, request).getContent();
+        String response = chatBotComponent.getChatResponseByMemory(memory, request).getContent();
+
+        /* DB 에 저장하는 로직 */
         Map<String, String> chatMap = mapOf(
                 "request", request,
                 "response", response,
