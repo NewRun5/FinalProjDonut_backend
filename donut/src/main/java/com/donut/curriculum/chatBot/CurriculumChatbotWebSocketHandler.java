@@ -2,6 +2,7 @@ package com.donut.curriculum.chatBot;
 
 import com.donut.common.utils.ChatBotComponent;
 import com.donut.common.utils.ChatBotMemory;
+import com.donut.curriculum.CurriculumDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
     /* 병렬처리가 가능한 Map. 각각 세션의 아이디를 Key로 세션을 관리할 수 있다. */
     private final Map<String, ChatBotMemory> sessions = new ConcurrentHashMap<>();
     private final ChatBotComponent component;
-    private final String sysMsg = "당신은 사용자가 원하는 커리큘럼을 생성해주는 챗봇입니다.";
+    private final String sysMsg = "당신은 사용자가 원하는 커리큘럼을 생성해주는 챗봇입니다. 주어진 json 스키마를 벗어나는 커리큘럼은 만들면 안됩니다.";
     /* 세션 */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -31,8 +32,9 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         ChatBotMemory memory = sessions.get(session.getId());
         /* 챗봇 컴포넌트 활용해서 답변 생성 */
-        Message msg = component.getChatResponse(memory, payload);
-        /* 생성된 답변 추출하여 반환 */
-        session.sendMessage(new TextMessage(msg.getContent()));
+        CurriculumDTO curriculumDTO = (CurriculumDTO) component.getStructuredOutputByMemory(memory, payload, CurriculumDTO.class);
+        System.out.println(curriculumDTO);
+
+        session.sendMessage(new TextMessage("커리큘럼이 생성되었습니다. 콘솔을 확인해주세요."));
     }
 }
