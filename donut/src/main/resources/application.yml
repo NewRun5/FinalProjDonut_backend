@@ -11,11 +11,11 @@ spring:
   data:
     mongodb:
 #      임시입니다.
-      uri: mongodb+srv://junowol6:yzdDF61dZjtdoazP@donut.7868q.mongodb.net/donut
+      uri: mongodb+srv://jyejye:3690tlslzjf@cluster0.fqfxc.mongodb.net/vectordb
   ai:
     vectorstore:
       mongodb:
-        collection-name: documents
+        collection-name: history_data
         initialize-schema: false
         path-name: embedding
         indexName: vector_index
@@ -27,7 +27,7 @@ spring:
       api-key: ${OPENAI_API_KEY}
       chat:
         options:
-          model: gpt-3.5-turbo-0125
+          model: gpt-4o-mini
       embedding:
         options:
           model: text-embedding-3-small
@@ -36,3 +36,11 @@ mybatis:
   mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+hybrid-search:
+  tmm:
+    text-score:
+      max-value: 5
+      min-value: 0
+  weight:
+    vector-score: 0.5
+    text-score: 0.5
