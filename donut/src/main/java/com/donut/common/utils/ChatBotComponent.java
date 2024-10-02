@@ -39,6 +39,13 @@ public class ChatBotComponent {
         memory.save(result);
         return result;
     }
+    public Message getChatResponseByMemory(ChatBotMemory memory) {
+        List<Message> list = memory.getHistory();
+        Prompt prompt = new Prompt(list);
+        Message result =  chatModel.call(prompt).getResult().getOutput();
+        memory.save(result);
+        return result;
+    }
 
     /**
      * 시스템 메세지를 가진 1회성 응답을 받기 위한 메소드입니다.
@@ -98,9 +105,29 @@ public class ChatBotComponent {
         history.add(generation.getOutput());
         return resultObj;
     }
+    public Object getStructuredOutputByMemory(ChatBotMemory memory, Class<?> resultClass){
+
+
+        List<Message> history = memory.getHistory();
+
+        List<Message> list = new ArrayList<>(history);
+
+        BeanOutputConverter<?>beanOutputConverter = new BeanOutputConverter<>(resultClass);
+        if(history.get(0).getClass() == SystemMessage.class){
+            list.add(new SystemMessage(beanOutputConverter.getFormat()));
+        } else {
+            list.add(0, new SystemMessage(beanOutputConverter.getFormat()));
+        }
+
+
+        Generation generation = chatModel.call(new Prompt(list)).getResult();
+        Object resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
+
+        history.add(generation.getOutput());
+        return resultObj;
+    }
     /**
-     * 구조화된 출력을 얻기 위한 메소드입니다.
-     * 아직 테스트 되지 않았습니다.
+     * 구조화된 출력을 얻기 위한 메소드입니다.-
      * @param sysInput : 시스템 메세지
      * @param userInput : 유저 메세지
      * @param resultClass : 원하는 클래스의 클래스 객체

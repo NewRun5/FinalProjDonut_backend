@@ -16,7 +16,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final QuestionChatBotHandler questionHandler;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(curriculumHandler, "/ws-chat").setAllowedOrigins("*");
+        registry.addHandler(curriculumHandler, "/ws-generate-curriculum").setAllowedOrigins("*");
 //        registry.addHandler(questionHandler, "/ws-chat").setAllowedOrigins("*");
     }
 }

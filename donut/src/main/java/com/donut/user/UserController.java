@@ -17,6 +17,4 @@ public class UserController {
         System.out.println("GraphQL Query: " + query);
         return userService.findUserByUserId(userId);
     }
-
-
 }
