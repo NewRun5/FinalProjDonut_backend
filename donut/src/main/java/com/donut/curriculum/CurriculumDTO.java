@@ -1,6 +1,8 @@
 package com.donut.curriculum;
 
+import com.donut.chapter.ChapterDTO;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,17 +10,18 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
 @Setter
-@Getter
-@ToString
 public class CurriculumDTO {
-//    private int id;
-//    private String userId;
-//    private String description;
-//    private String imagePath;
-//    private double progress;
-//    private LocalDate completeDate;
-//    private LocalDate deleteDate;
-    @JsonPropertyDescription("커리큘럼의 단원 리스트입니다.")
-    private String unitList;
+    private Integer id;
+    private String userId;
+    private String title;
+    private String description;
+    private String imagePath;
+    private Float progress;
+    private LocalDate createDate;
+    private LocalDate completeDate;
+    private LocalDate deleteDate;
+    private List<ChapterDTO> chapterList;
+    private boolean isRagUsed;
 }

@@ -54,7 +54,7 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
 
         Curriculum curriculum = null;
         String generation = "정보 수집 완료";
-        boolean isRagUsed;
+        boolean isRagUsed = false;
 
 
         var graph = langGraph.buildGraph().compile().stream(mapOf("chatHistory", chatHistoryList));
@@ -65,7 +65,12 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
             isRagUsed = r.getState().isRagUsed();
         }
         if (generation == null){
-            curriculum.isRagUsed();
+            curriculum.setRagUsed(isRagUsed);
+            generation = jsonUtil.jsonStringify(curriculum);
+        } else {
+            Curriculum nonCurriculum = new Curriculum();
+            nonCurriculum.setComment(generation);
+            generation = jsonUtil.jsonStringify(nonCurriculum);
         }
         AssistantMessage gen = new AssistantMessage(generation);
         memory.save(gen);

@@ -9,7 +9,6 @@ import com.donut.curriculum.langGraph.model.ChatHistory;
 import com.donut.curriculum.langGraph.model.UserNeeds;
 import com.donut.curriculum.langGraph.model.Curriculum;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class CurriculumService {
+public class CurriculumLangGraphService {
     private final PromptLoader promptLoader = new PromptLoader("curriculum/");
     private final JsonUtil jsonUtil;
     private final ChatBotComponent component;
