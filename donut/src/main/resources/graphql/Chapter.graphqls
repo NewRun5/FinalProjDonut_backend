@@ -3,7 +3,8 @@ type Chapter {
     curriculum: Curriculum!
     title: String!
     description: String!
-    content: String!
+    goal: String!
+    content: String
     summaryNote: String
     completeDate: LocalDate
     chatHistories: [ChatHistory]

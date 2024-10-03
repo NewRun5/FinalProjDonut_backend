@@ -21,7 +21,7 @@ import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
 @RequiredArgsConstructor
 @Component
 public class CurriculumLangGraph {
-    private final CurriculumService service;
+    private final CurriculumLangGraphService service;
 
     public StateGraph<CurriculumState> buildGraph() throws Exception {
         return new StateGraph<>(CurriculumState::new)
@@ -61,7 +61,7 @@ public class CurriculumLangGraph {
         if (userNeeds.getLevel() == null) {
             return "null";
         }
-        if (userNeeds.getBackgroundInformation() == null) {
+        if (userNeeds.getProficiency() == null) {
             return "null";
         }
         return "not null";

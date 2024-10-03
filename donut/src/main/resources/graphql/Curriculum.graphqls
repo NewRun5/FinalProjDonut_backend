@@ -1,10 +1,30 @@
 type Curriculum {
     id: ID!
-    user: User!
+    userId: Int!
     title: String!
     description: String!
-    image_path: String!
+    imagePath: String
     progress: Float!
     createDate: LocalDate!
-    chapters: [Chapter]
+    completeDate: LocalDate
+    deleteDate: LocalDate
+    chapterList: [Chapter]
+    isRagUsed: Boolean
+}
+input insertCurriculum{
+    title: String
+    description: String
+    chapterList: [insertCurriculumChapterList]
+    isRagUsed: Boolean
+}
+input insertCurriculumChapterList {
+    title: String
+    description: String
+    goal: String
+}
+extend type Mutation {
+    saveCurriculum(input: insertCurriculum): Int
+}
+extend type Query {
+    getCurriculumById(id: Int!): Curriculum
 }
