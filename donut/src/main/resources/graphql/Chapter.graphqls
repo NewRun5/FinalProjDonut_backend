@@ -9,3 +9,7 @@ type Chapter {
     completeDate: LocalDate
     chatHistories: [ChatHistory]
 }
+
+extend type Query {
+    getChapterContentById(chapterId:Int): String
+}

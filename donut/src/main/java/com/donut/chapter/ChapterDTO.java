@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class ChapterDTO {
+public class ChapterDTO implements Serializable {
     private Integer id;
     private String title;
     private String goal;

@@ -1,6 +1,9 @@
 spring:
   graphql:
     path: /graphql
+    graphiql:
+      path: /graphiql
+      enabled: true
   application:
     name: donut
   datasource:
