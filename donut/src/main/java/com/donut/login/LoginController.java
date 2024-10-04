@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class LoginController {
     private final LoginService loginService;
 
-    // 로그인 (세션 기반)
+    // 로그인 Mutation 처리
     @MutationMapping
     public Boolean login(@Argument String userId, @Argument String password) {
         if (loginService.authenticate(userId, password)) {
