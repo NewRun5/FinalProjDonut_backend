@@ -28,16 +28,12 @@ public class ChapterLangGraphService {
                 "{goal : " + chapter.getGoal()  + "}";
         String prompt = promptLoader.get("genDocumentSearchQuery");
         String [] result = (String[]) component.getStructuredOutput(prompt, chapterDescription, String[].class);
-        for (String r : result){
-            System.out.println(r);
-        }
         return result;
     }
 
     public List<Map<String, Object>> documentSearch(String[] searchQuery) {
         List<Map<String, Object>> result = new ArrayList<>();
         for (String query : searchQuery) {
-            System.out.println("쿼리 " + query);
             List<Map<String, Object>> searchResult = documentSearchService.hybridSearch(query);
             result.addAll(searchResult);
         }
@@ -66,9 +62,34 @@ public class ChapterLangGraphService {
     public String[] genSearchImgQuery(String contentPrototype) {
         String prompt = promptLoader.get("genSearchImgQuery");
         String[] result = (String[]) component.getStructuredOutput(prompt, contentPrototype, String[].class);
-        for (String r : result){
-            System.out.println(r);
+        System.out.println(result.length);
+        return result;
+    }
+
+    public List<Map<String, Object>> imageSearch(String[] searchImgQuery) {
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (String query : searchImgQuery) {
+            System.out.println("쿼리 " + query);
+            List<Map<String, Object>> searchResult = imageSearchService.hybridSearch(query);
+            result.addAll(searchResult);
         }
+        result = result.stream().filter(r-> (double)r.get("score") > 0.7).toList();
+        System.out.println("필터링 결과 이미지 : " + result.size());
+        return result;
+    }
+
+    public String genContent(ChapterDTO chapter, List<Map<String, Object>> imageList, List<Map<String, Object>> documentList) {
+        String chapterDescription =  "{챕터 이름 : " + chapter.getTitle() + "},"+
+                "{설명 : " + chapter.getDescription()  + "},"+
+                "{학습 목표 : " + chapter.getGoal()  + "}";
+        String prompt = promptLoader.get("genContent", Map.of("chapter", chapterDescription));
+
+        String imageString = jsonUtil.jsonStringify(imageList);
+        String documentString = jsonUtil.jsonStringify(documentList);
+        String userQuery = "{문서 정보 : " + documentString + "}, {이미지 정보 :" + imageString + "}";
+
+        String result = component.getChatResponseWithSysMsg(prompt, userQuery).getContent();
+        System.out.println(result);
         return result;
     }
 }

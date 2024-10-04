@@ -32,8 +32,8 @@ public class ChapterContentState extends AgentState {
         Optional<String> result = value("contentPrototype");
         return result.orElse(null);
     }
-    public String genMarkDown(){
-        Optional<String> result = value("genMarkDown");
+    public String content(){
+        Optional<String> result = value("content");
         return result.orElse(null);
     }
     public List<Map<String, Object>> imageDataList(){

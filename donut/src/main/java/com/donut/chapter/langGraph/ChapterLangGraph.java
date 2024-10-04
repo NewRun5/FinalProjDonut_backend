@@ -28,10 +28,10 @@ public class ChapterLangGraph {
                 .addEdge(START, "genDocumentSearchQuery")
                 .addEdge("genDocumentSearchQuery", "documentSearch")
                 .addEdge("documentSearch", "genContentPrototype")
-                .addEdge("genContentPrototype", END);
-//                .addEdge("genImageSearchQuery", "imageSearch")
-//                .addEdge("imageSearch", "genContent")
-//                .addEdge("genContent", END);
+                .addEdge("genContentPrototype", "genImageSearchQuery")
+                .addEdge("genImageSearchQuery", "imageSearch")
+                .addEdge("imageSearch", "genContent")
+                .addEdge("genContent", END);
     }
 
     private Map<String, Object> genDocumentSearchQuery(ChapterContentState state) {
@@ -60,10 +60,16 @@ public class ChapterLangGraph {
     }
 
     private Map<String, Object> imageSearch(ChapterContentState state) {
-        return null;
+        String[] searchImgQuery = state.searchImgQuery();
+        List<Map<String, Object>> imageList = service.imageSearch(searchImgQuery);
+        return mapOf("imageDataList", imageList);
     }
 
     private Map<String, Object> genContent(ChapterContentState state) {
-        return null;
+        List<Map<String, Object>> imageList = state.imageDataList();
+        List<Map<String, Object>> documentList = state.documentList();
+        ChapterDTO chapter = state.chapter();
+        String content = service.genContent(chapter, imageList, documentList);
+        return mapOf("content", content);
     }
 }
