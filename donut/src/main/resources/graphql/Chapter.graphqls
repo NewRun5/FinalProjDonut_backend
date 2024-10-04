@@ -1,6 +1,5 @@
 type Chapter {
     id: ID!
-    curriculum: Curriculum!
     title: String!
     description: String!
     goal: String!

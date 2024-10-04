@@ -1,6 +1,5 @@
 type ChatHistory {
     id: ID!
-    chapter: Chapter!
     content: String!
     isUser: Boolean!
     createDate: LocalDateTime!
