@@ -24,4 +24,32 @@
             (#{chapterId}, #{request}, true),
             (#{chapterId}, #{response}, false);
     </insert>
+
+    <!-- 새로운 getChatHistoryByDate 쿼리: 날짜 기준으로 ChatHistory를 가져오는 쿼리 -->
+    <select id="getChatHistoryByDate" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+        SELECT
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
+        FROM
+        CHAT_HISTORY
+        WHERE
+        DATE(CREATE_DATE) = #{date}
+        ORDER BY
+        CREATE_DATE ASC;
+    </select>
+    <select id="getAllChatHistories" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+        SELECT
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
+        FROM
+        CHAT_HISTORY
+        ORDER BY
+        CREATE_DATE ASC;
+    </select>
 </mapper>

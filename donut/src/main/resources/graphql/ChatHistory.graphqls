@@ -4,3 +4,8 @@ type ChatHistory {
     isUser: Boolean!
     createDate: LocalDateTime!
 }
+
+extend type Query {
+    getChatHistoryByDate(date: String!): [ChatHistory]
+    getAllChatHistories: [ChatHistory]
+}

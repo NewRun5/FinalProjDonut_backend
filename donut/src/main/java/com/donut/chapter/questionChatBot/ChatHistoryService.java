@@ -17,4 +17,12 @@ public class ChatHistoryService {
     public int saveQuestionAndAnswer(Map<String, String> chatMap) {
         return mapper.saveQuestionAndAnswer(chatMap);
     }
+
+    public List<ChatHistoryDTO> getChatHistoryByDate(String date) {
+        return mapper.getChatHistoryByDate(date);
+    }
+
+    public List<ChatHistoryDTO> getAllChatHistories() {
+        return mapper.getAllChatHistories();
+    }
 }
