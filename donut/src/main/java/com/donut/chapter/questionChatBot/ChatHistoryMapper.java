@@ -14,6 +14,7 @@ public interface ChatHistoryMapper {
 
     List<ChatHistoryDTO> getChatHistoryByDate(String date);
 
-//    @Select("SELECT * FROM CHAT_HISTORY ORDER BY CREATE_DATE ASC")
     List<ChatHistoryDTO> getAllChatHistories();
+
+    List<ChatHistoryDTO> getChatHistoryByChapterIdWithDate(int chapterId, String fromDate, String toDate);
 }

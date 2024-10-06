@@ -6,6 +6,8 @@ type ChatHistory {
 }
 
 extend type Query {
-    getChatHistoryByDate(date: String!): [ChatHistory]
     getAllChatHistories: [ChatHistory]
+    getChatHistoryByChapterId(chapterId: Int!): [ChatHistory]
+    getChatHistoryByDate(date: String!): [ChatHistory]
+    getChatHistoryByChapterIdWithDate(chapterId: Int!, fromDate: String, toDate: String): [ChatHistory]
 }
