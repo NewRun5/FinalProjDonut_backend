@@ -3,19 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.donut.chapter.questionChatBot.ChatHistoryMapper">
+<!--    getChatHistoryByChapterId-->
     <select id="getChatHistoryByChapterId" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
         SELECT
-            ID,
-            CHAPTER_ID,
-            CONTENT,
-            IS_USER,
-            CREATE_DATE
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
         FROM
-            CHAT_HISTORY
+        CHAT_HISTORY
         WHERE
-            CHAPTER_ID = #{chapterId}
+        CHAPTER_ID = #{chapterId}
+        AND IS_USER = 1  <!-- 사용자가 작성한 대화만 가져옴 -->
         ORDER BY
-            CREATE_DATE ASC;
+        CREATE_DATE ASC;
     </select>
     <insert id="saveQuestionAndAnswer" parameterType="hashmap">
         INSERT INTO CHAT_HISTORY
@@ -24,4 +26,57 @@
             (#{chapterId}, #{request}, true),
             (#{chapterId}, #{response}, false);
     </insert>
+
+    <!-- 새로운 getChatHistoryByDate 쿼리: 날짜 기준으로 ChatHistory를 가져오는 쿼리 -->
+    <select id="getChatHistoryByDate" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+        SELECT
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
+        FROM
+        CHAT_HISTORY
+        WHERE
+        DATE(CREATE_DATE) = #{date}
+        ORDER BY
+        CREATE_DATE ASC;
+    </select>
+
+    <select id="getAllChatHistories" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+        SELECT
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
+        FROM
+        CHAT_HISTORY
+        WHERE IS_USER = 1  <!-- 사용자 대화만 가져옴 -->
+        ORDER BY
+        CREATE_DATE ASC;
+    </select>
+
+
+    <select id="getChatHistoryByChapterIdWithDate" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+        SELECT
+        ID,
+        CHAPTER_ID,
+        CONTENT,
+        IS_USER,
+        CREATE_DATE
+        FROM
+        CHAT_HISTORY
+        WHERE
+        CHAPTER_ID = #{chapterId}
+        AND IS_USER = 1  <!-- 사용자 대화만 가져옴 -->
+        <if test="fromDate != null">
+            AND CREATE_DATE &gt;= #{fromDate}
+        </if>
+        <if test="toDate != null">
+            AND CREATE_DATE &lt;= #{toDate}
+        </if>
+        ORDER BY
+        CREATE_DATE ASC;
+    </select>
 </mapper>

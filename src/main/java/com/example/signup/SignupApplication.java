@@ -1,14 +1,12 @@
-package com.donut;
+package com.example.signup;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DonutDemoApplication {
+public class SignupApplication {
 
     public static void main(String[] args) {
-
-        SpringApplication.run(DonutDemoApplication.class, args);
+        SpringApplication.run(SignupApplication.class, args);
     }
-
 }

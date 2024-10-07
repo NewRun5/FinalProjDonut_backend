@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            width: 400px;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #6A5ACD;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #5A4FB5;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-container label {
+            margin-left: 2px;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* 모달 레이어 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .modal button {
+            background-color: #6A5ACD;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="login(event)">
+        <input type="text" id="userId" placeholder="아이디" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
+        <div class="checkbox-container">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">아이디 저장</label>
+        </div>
+        <button type="submit">로그인</button>
+        <p id="error-message" class="error"></p>
+    </form>
+</div>
+
+<!-- 모달 레이어 -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p id="modal-message"></p>
+        <button onclick="closeModal()">확인</button>
+    </div>
+</div>
+
+<script>
+    // 로그인 함수
+    function login(event) {
+        event.preventDefault(); // 폼 제출 방지 (페이지 새로고침 방지)
+
+        const userId = document.getElementById('userId').value;
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+
+        // 아이디 저장 기능
+        if (rememberMe) {
+            localStorage.setItem('savedUserId', userId);
+        } else {
+            localStorage.removeItem('savedUserId');
+        }
+
+        const query = `
+            mutation {
+              login(userId: "${userId}", password: "${password}")
+            }
+        `;
+
+        fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ query })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // 응답 데이터를 출력해 확인
+                if (data.data && data.data.login) {
+                    showModal("로그인 성공!", () => {
+                        window.location.href = "logout.html";  // 로그인 성공 시 메인 페이지로 이동
+                    });
+                } else {
+                    showModal("아이디나 비밀번호가 올바르지 않습니다.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showModal("서버 오류가 발생했습니다.");
+            });
+    }
+
+    // 모달 표시
+    function showModal(message, callback) {
+        document.getElementById('modal-message').innerText = message;
+        const modal = document.getElementById('modal');
+        modal.style.display = 'flex';
+        modal.callback = callback || null;
+    }
+
+    // 모달 닫기
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+        if (modal.callback) {
+            modal.callback();
+        }
+    }
+
+    // 로컬 스토리지에 저장된 아이디 불러오기
+    window.onload = function() {
+        const savedUserId = localStorage.getItem('savedUserId');
+        if (savedUserId) {
+            document.getElementById('userId').value = savedUserId;  // 저장된 아이디가 있으면 채우기
+            document.getElementById('rememberMe').checked = true;   // 체크박스 체크
+        }
+    }
+</script>
+
+</body>
+</html>
