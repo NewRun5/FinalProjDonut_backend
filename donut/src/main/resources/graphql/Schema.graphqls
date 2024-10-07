@@ -4,5 +4,7 @@ type Mutation{
 
     # 로그인
     login(userId: String!, password: String!): Boolean
-    logout: Boolean
+    logout: Boolean!
+
+
 }

@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
@@ -47,10 +49,13 @@ public class LoginService {
         loginMapper.updateUserPassword(userId, encodedPassword);
     }
 
+    private final Logger logger = LoggerFactory.getLogger(LoginService.class);
     // 로그아웃 처리 메서드 추가
     public boolean logout() {
-        // 로그아웃 로직 (예시: SecurityContext를 클리어하는 로직)
-        SecurityContextHolder.clearContext();
+
+        SecurityContextHolder.clearContext(); // 세션 및 인증 정보 클리어
+        System.out.println("User logged out successfully");
+        logger.info("로그아웃 깨끗하게 성공");
         return true;
     }
 }

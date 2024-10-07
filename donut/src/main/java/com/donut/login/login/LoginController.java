@@ -4,6 +4,7 @@ import com.donut.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -18,6 +19,7 @@ public class LoginController {
 
     @MutationMapping
     public boolean logout() {
-        return loginService.logout();
+        SecurityContextHolder.clearContext();  // 세션과 인증 정보 제거
+        return true;  // 로그아웃 성공 시 true 반환
     }
 }

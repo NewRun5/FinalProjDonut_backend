@@ -44,3 +44,11 @@ hybrid-search:
   weight:
     vector-score: 0.5
     text-score: 0.5
+
+logging:
+  level:
+    root: INFO  # 루트 로거의 레벨을 INFO로 설정
+  file:
+    name: application.log  # 파일로 로깅할 경우, 로그 파일의 이름 설정
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  # 콘솔 로그 형식
