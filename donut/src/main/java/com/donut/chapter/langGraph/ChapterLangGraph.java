@@ -25,10 +25,12 @@ public class ChapterLangGraph {
                 .addNode("genImageSearchQuery", node_async(this::genImageSearchQuery))
                 .addNode("imageSearch", node_async(this::imageSearch))
                 .addNode("genContent", node_async(this::genContent))
+                /* 문서 기본 내용 만들기 */
                 .addEdge(START, "genDocumentSearchQuery")
                 .addEdge("genDocumentSearchQuery", "documentSearch")
                 .addEdge("documentSearch", "genContentPrototype")
                 .addEdge("genContentPrototype", "genImageSearchQuery")
+                /* 있으면 좋을 것 같은 이미지 검색 */
                 .addEdge("genImageSearchQuery", "imageSearch")
                 .addEdge("imageSearch", "genContent")
                 .addEdge("genContent", END);

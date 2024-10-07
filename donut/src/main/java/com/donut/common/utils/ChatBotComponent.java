@@ -7,8 +7,12 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.ai.image.ImagePrompt;
+import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.OpenAiImageModel;
+import org.springframework.ai.openai.OpenAiImageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatBotComponent {
     private final OpenAiChatModel chatModel;
+    private final OpenAiImageModel openAiImageModel;
 
     /**
      * memory 객체를 통해 응답을 받는 메소드입니다.
@@ -83,7 +88,7 @@ public class ChatBotComponent {
      * @param resultClass : 결과 클래스 객체
      * @return : 반환된 클래스
      */
-    public Object getStructuredOutputByMemory(ChatBotMemory memory, String userInput, Class<?> resultClass){
+    public <T> T getStructuredOutputByMemory(ChatBotMemory memory, String userInput, Class<T> resultClass){
 
 
         List<Message> history = memory.getHistory();
@@ -91,40 +96,68 @@ public class ChatBotComponent {
 
 
         List<Message> list = new ArrayList<>(history);
-        BeanOutputConverter<?>beanOutputConverter = new BeanOutputConverter<>(resultClass);
+        BeanOutputConverter<T>beanOutputConverter = new BeanOutputConverter<>(resultClass);
         if(history.get(0).getClass() == SystemMessage.class){
             list.add(new SystemMessage(beanOutputConverter.getFormat()));
         } else {
             list.add(0, new SystemMessage(beanOutputConverter.getFormat()));
         }
 
+        int tried = 0;
+        while (tried < 5) {
+            try {
+                Generation generation = chatModel.call(new Prompt(list)).getResult();
+                history.add(generation.getOutput());
+                T resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
 
-        Generation generation = chatModel.call(new Prompt(list)).getResult();
-        Object resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
+                // 원하는 클래스 타입인지 확인
+                if (!resultClass.isInstance(resultObj)) {
+                    throw new Exception("Parsing error: Expected " + resultClass.getName() + " but got different type");
+                }
 
-        history.add(generation.getOutput());
-        return resultObj;
+                list.add(generation.getOutput());
+                return resultObj;
+            } catch (Exception e) {
+                System.out.println("parse exception: " + (tried + 1) + " tried");
+                tried++;
+            }
+        }
+
+        return null;
     }
-    public Object getStructuredOutputByMemory(ChatBotMemory memory, Class<?> resultClass){
+    public <T> T getStructuredOutputByMemory(ChatBotMemory memory, Class<T> resultClass){
 
 
         List<Message> history = memory.getHistory();
 
         List<Message> list = new ArrayList<>(history);
 
-        BeanOutputConverter<?>beanOutputConverter = new BeanOutputConverter<>(resultClass);
+        BeanOutputConverter<T>beanOutputConverter = new BeanOutputConverter<>(resultClass);
         if(history.get(0).getClass() == SystemMessage.class){
             list.add(new SystemMessage(beanOutputConverter.getFormat()));
         } else {
             list.add(0, new SystemMessage(beanOutputConverter.getFormat()));
         }
 
+        int tried = 0;
+        while (tried < 5) {
+            try {
+                Generation generation = chatModel.call(new Prompt(list)).getResult();
+                T resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
 
-        Generation generation = chatModel.call(new Prompt(list)).getResult();
-        Object resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
+                // 원하는 클래스 타입인지 확인
+                if (!resultClass.isInstance(resultObj)) {
+                    throw new Exception("Parsing error: Expected " + resultClass.getName() + " but got different type");
+                }
 
-        history.add(generation.getOutput());
-        return resultObj;
+                list.add(generation.getOutput());
+                return resultObj;
+            } catch (Exception e) {
+                System.out.println("parse exception: " + (tried + 1) + " tried");
+                tried++;
+            }
+        }
+        return null;
     }
     /**
      * 구조화된 출력을 얻기 위한 메소드입니다.-
@@ -133,18 +166,46 @@ public class ChatBotComponent {
      * @param resultClass : 원하는 클래스의 클래스 객체
      * @return : 반환된 클래스
      */
-    public Object getStructuredOutput(String sysInput, String userInput, Class<?> resultClass){
+    public <T> T getStructuredOutput(String sysInput, String userInput, Class<T> resultClass) {
         Message sysMsg = new SystemMessage(sysInput);
         Message userMsg = new UserMessage(userInput);
         List<Message> list = new ArrayList<>();
-        BeanOutputConverter<?>beanOutputConverter = new BeanOutputConverter<>(resultClass);
+        BeanOutputConverter<T> beanOutputConverter = new BeanOutputConverter<>(resultClass);
         list.add(sysMsg);
         list.add(new SystemMessage(beanOutputConverter.getFormat()));
         list.add(userMsg);
 
-        Generation generation = chatModel.call(new Prompt(list)).getResult();
-        Object resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
-        list.add(generation.getOutput());
-        return resultObj;
+        int tried = 0;
+        while (tried < 5) {
+            try {
+                Generation generation = chatModel.call(new Prompt(list)).getResult();
+                T resultObj = beanOutputConverter.convert(generation.getOutput().getContent());
+
+                // 원하는 클래스 타입인지 확인
+                if (!resultClass.isInstance(resultObj)) {
+                    throw new Exception("Parsing error: Expected " + resultClass.getName() + " but got different type");
+                }
+
+                list.add(generation.getOutput());
+                return resultObj;
+            } catch (Exception e) {
+                System.out.println("parse exception: " + (tried + 1) + " tried");
+                tried++;
+            }
+        }
+        return null;
+    }
+
+    public String getImageByString(String prompt) {
+        ImageResponse response = openAiImageModel.call(
+                new ImagePrompt(prompt,
+                        OpenAiImageOptions.builder()
+                                .withQuality("hd")
+                                .withN(1)
+                                .withHeight(1792)
+                                .withWidth(1024).build())
+
+        );
+        return response.getResult().getOutput().getUrl();
     }
 }

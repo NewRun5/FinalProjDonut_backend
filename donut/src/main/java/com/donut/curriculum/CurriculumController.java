@@ -13,6 +13,7 @@ public class CurriculumController {
     private final CurriculumService service;
     @MutationMapping
     public Integer saveCurriculum(@Argument("input") CurriculumDTO request){
+        System.out.println("인서트");
         Integer response = service.saveCurriculum(request);
         return response;
     }

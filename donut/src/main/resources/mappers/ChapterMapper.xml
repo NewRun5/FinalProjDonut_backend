@@ -3,6 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.donut.chapter.ChapterMapper">
+    <update id="updateChapterContent">
+        UPDATE
+            CHAPTER
+        SET
+            CONTENT = #{content}
+        WHERE
+            ID = #{chapterId}
+    </update>
     <select id="getChapterById" resultType="com.donut.chapter.ChapterDTO">
         SELECT
             ID,

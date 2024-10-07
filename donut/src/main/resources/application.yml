@@ -1,4 +1,7 @@
 spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
   graphql:
     path: /graphql
     graphiql:
@@ -30,6 +33,9 @@ spring:
       embedding:
         options:
           model: text-embedding-3-small
+      image:
+        options:
+          model: "dall-e-3"
 # 마이바티스 설정
 mybatis:
   mapper-locations: mappers/**/*.xml
@@ -38,9 +44,19 @@ mybatis:
 
 hybrid-search:
   tmm:
+#    BM 25 점수가 이론상 무한대  5 이상이면 만점취급
     text-score:
       max-value: 5
       min-value: 0
+      # 만약에 25점 나왔으면 만점 5점도 만점
+
+      # -1 ~ 1    0 ~ 5
+      # 0 ~ 1
+      #
   weight:
+    # 정규화 된 0 ~ 1 점수
+
+    # 시도하면서 찾은 잘 나온 값으로 설정
+    # 키워드에 중점 vs 의미 중점
     vector-score: 0.5
     text-score: 0.5

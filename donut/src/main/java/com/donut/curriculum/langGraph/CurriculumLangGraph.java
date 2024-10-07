@@ -89,8 +89,6 @@ public class CurriculumLangGraph {
     private String isUsefulData(CurriculumState state) {
         List<Map<String, Object>> documents = state.documentList();
         List<ChatHistory> chatHistoryList = state.chatHistoryList();
-        System.out.println("검색된 문서" + documents);
-        System.out.println("채팅 내역" + chatHistoryList);
         String result = service.isUsefulData(documents, chatHistoryList);
         System.out.println("정보 유용함 여부 : " + result);
         return result;

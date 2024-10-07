@@ -12,7 +12,7 @@ import java.util.List;
 public class Curriculum implements Serializable {
     @JsonPropertyDescription("커리큘럼의 제목입니다.")
     private String title;
-    @JsonPropertyDescription("커리큘럼에 대한 설명입니다.")
+    @JsonPropertyDescription("소제목입니다.")
     private String description;
     @JsonPropertyDescription("커리큘럼의 챕터 리스트입니다.")
     private List<Chapter> chapterList;

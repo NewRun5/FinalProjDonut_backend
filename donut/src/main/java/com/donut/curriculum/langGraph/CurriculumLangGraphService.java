@@ -58,11 +58,17 @@ public class CurriculumLangGraphService {
     public String isUsefulData(List<Map<String, Object>> documents, List<ChatHistory> chatHistoryList) {
         String prompt = promptLoader.get("isUsefulData", Map.of("context", jsonUtil.jsonStringify(documents)));
         ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-        String result = component.getStructuredOutputByMemory(memory, boolean.class) + "";
-        if (result.equals("true")) {
-            return "true";
+
+        int tried = 0;
+        while (tried < 5){
+            String isUseful = component.getChatResponseWithSysMsg(prompt, jsonUtil.jsonStringify(chatHistoryList)).getContent();
+            System.out.println("판단 결과 :" + isUseful);
+            if (isUseful.equals("true") || isUseful.equals("false")){
+                return isUseful;
+            }
+            tried++;
         }
+        System.out.println("파싱 실패");
         return "false";
     }
 

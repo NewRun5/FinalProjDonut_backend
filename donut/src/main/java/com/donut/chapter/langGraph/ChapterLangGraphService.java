@@ -37,7 +37,7 @@ public class ChapterLangGraphService {
             List<Map<String, Object>> searchResult = documentSearchService.hybridSearch(query);
             result.addAll(searchResult);
         }
-        result = result.stream().filter(r-> (double)r.get("score") > 0.7).toList();
+        result = result.stream().filter(r-> (double)r.get("score") > 0.75).toList();
         System.out.println("필터링 결과 문서 : " + result.size());
         return result;
     }
@@ -73,7 +73,7 @@ public class ChapterLangGraphService {
             List<Map<String, Object>> searchResult = imageSearchService.hybridSearch(query);
             result.addAll(searchResult);
         }
-        result = result.stream().filter(r-> (double)r.get("score") > 0.7).toList();
+        result = result.stream().filter(r-> (double)r.get("score") > 0.75).toList();
         System.out.println("필터링 결과 이미지 : " + result.size());
         return result;
     }

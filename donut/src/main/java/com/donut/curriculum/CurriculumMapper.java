@@ -11,4 +11,6 @@ public interface CurriculumMapper {
     void saveChapters(Map<String, Object> paramMap);
 
     CurriculumDTO getCurriculumById(Integer id);
+
+    int saveImagePath(Map<String, String> imagePath);
 }
