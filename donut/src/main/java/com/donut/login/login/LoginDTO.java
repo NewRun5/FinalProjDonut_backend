@@ -1,4 +1,4 @@
-package com.donut.login;
+package com.donut.login.login;
 
 import lombok.Getter;
 import lombok.Setter;

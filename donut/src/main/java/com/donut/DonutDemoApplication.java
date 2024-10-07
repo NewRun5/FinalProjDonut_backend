@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DonutDemoApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(DonutDemoApplication.class, args);
     }
 
