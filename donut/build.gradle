@@ -45,6 +45,9 @@ dependencies {
     // AI
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
     implementation 'org.bsc.langgraph4j:langgraph4j-core-jdk8:1.0-beta5'
+    // ND4J 기본 의존성
+    implementation 'org.nd4j:nd4j-native-platform:1.0.0-beta7'
+
 
     // 롬복
     compileOnly 'org.projectlombok:lombok'

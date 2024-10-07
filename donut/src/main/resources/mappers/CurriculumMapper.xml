@@ -43,6 +43,11 @@
             (#{curriculumId}, #{chapter.title}, #{chapter.goal}, #{chapter.description})
         </foreach>
     </insert>
+    <update id="saveImagePath">
+        UPDATE CURRICULUM
+        SET IMAGE_PATH = #{imagePath}
+        WHERE ID = #{curriculumId}
+    </update>
 
     <!-- 커리큘럼과 챕터 조회 -->
     <select id="getCurriculumById" resultMap="CurriculumResultMap">

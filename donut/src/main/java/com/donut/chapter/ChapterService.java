@@ -2,10 +2,18 @@ package com.donut.chapter;
 
 import com.donut.chapter.langGraph.ChapterContentState;
 import com.donut.chapter.langGraph.ChapterLangGraph;
+import com.donut.common.gson.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.bsc.async.AsyncGenerator;
 import org.bsc.langgraph4j.NodeOutput;
+import org.springframework.ai.image.ImagePrompt;
+import org.springframework.ai.image.ImageResponse;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.OpenAiImageModel;
+import org.springframework.ai.openai.OpenAiImageOptions;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
 
@@ -14,24 +22,35 @@ import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
 public class ChapterService {
     private final ChapterMapper mapper;
     private final ChapterLangGraph langGraph;
+    private final OpenAiImageModel openAiImageModel;
+    private final JsonUtil jsonUtil;
 
 
     public String getChapterContentById(int chapterId) {
         ChapterDTO chapterDTO = mapper.getChapterById(chapterId);
 
-        if(chapterDTO.getContent() != null) {
+
+        if (chapterDTO.getContent() != null) {
             return chapterDTO.getContent();
         }
 
-        AsyncGenerator<NodeOutput<ChapterContentState>> result = null;
+        AsyncGenerator<NodeOutput<ChapterContentState>> graph = null;
         try {
-            result = langGraph.buildGraph().compile().stream(mapOf("chapter", chapterDTO));
+            graph = langGraph.buildGraph().compile().stream(mapOf("chapter", chapterDTO));
         } catch (Exception e) {
             return "문서 생성에 실패하였습니다.";
         }
-
-        for (var i : result){
+        String result = "";
+        for (var i : graph) {
+            result = i.state().content();
         }
-        return "";
+        int insertResult = mapper.updateChapterContent(Map.of(
+                "chapterId", chapterId,
+                "content", result));
+        if (insertResult > 0) {
+            return result;
+        } else {
+            return "오류 발생";
+        }
     }
 }

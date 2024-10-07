@@ -24,7 +24,6 @@ public class DocumentSearchService {
     private final MongoTemplate mongoTemplate;
     private final TMMComponent tmmComponent;
     private final OpenAiEmbeddingModel openAiEmbeddingModel;
-    private final ContextFunctionCatalogAutoConfiguration contextFunctionCatalogAutoConfiguration;
 
     public AggregationResults<Document> vectorSearch(String query) {
         List<Double> queryVector = openAiEmbeddingModel.embed(query);
@@ -34,8 +33,8 @@ public class DocumentSearchService {
                         .append("path", "content-embedding")
                         .append("queryVector", queryVector) // 벡터로 변환된 쿼리
                         .append("numCandidates", 64) // 후보 문서 수
-                        .append("limit", 10) // 후보 문서 수
-                        .append("filter", new Document("meta.type", "document"))
+                        .append("limit", 30) // 후보 문서 수
+                        .append("filter", new Document("meta.type", "doc"))
         );
 
         Aggregation aggregation = Aggregation.newAggregation(
@@ -45,7 +44,7 @@ public class DocumentSearchService {
                                 .append("vectorScore", new Document("$meta", "vectorSearchScore")) // 검색 점수 추가
                 ),
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "vectorScore")), // 점수에 따라 정렬
-                Aggregation.limit(10) // 상위 10개의 결과만 가져옴
+                Aggregation.limit(30) // 상위 10개의 결과만 가져옴
         );
 
         // Aggregation 실행 및 결과 반환
@@ -58,7 +57,7 @@ public class DocumentSearchService {
                                 .append("path", List.of("meta.content", "meta.title"))
                         )
         );
-        Document matchStage = new Document("$match", new Document("meta.type", "document"));
+        Document matchStage = new Document("$match", new Document("meta.type", "doc"));
 
         Aggregation aggregation = Aggregation.newAggregation(
                 context -> searchStage,
@@ -68,7 +67,7 @@ public class DocumentSearchService {
                                 .append("textScore", new Document("$meta", "searchScore")) // 검색 점수 추가
                 ),
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "textScore")),
-                Aggregation.limit(10) // 상위 10개의 결과만 가져옴
+                Aggregation.limit(30) // 상위 10개의 결과만 가져옴
         );
 
         // Aggregation 실행 및 결과 반환
@@ -114,7 +113,6 @@ public class DocumentSearchService {
         {
             combinedResults.sort((a, b) -> Double.compare((double) b.get("score"), (double) a.get("score")));
         }
-        System.out.println(combinedResults);
         return combinedResults;
     }
 }
