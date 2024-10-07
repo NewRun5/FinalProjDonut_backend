@@ -1,0 +1,13 @@
+type ChatHistory {
+    id: ID!
+    content: String!
+    isUser: Boolean!
+    createDate: LocalDateTime!
+}
+
+extend type Query {
+    getAllChatHistories: [ChatHistory]
+    getChatHistoryByChapterId(chapterId: Int!): [ChatHistory]
+    getChatHistoryByDate(date: String!): [ChatHistory]
+    getChatHistoryByChapterIdWithDate(chapterId: Int!, fromDate: String, toDate: String): [ChatHistory]
+}

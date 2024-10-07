@@ -1,0 +1,14 @@
+type Chapter {
+    id: ID!
+    title: String!
+    description: String!
+    goal: String!
+    content: String
+    summaryNote: String
+    completeDate: LocalDate
+    chatHistories: [ChatHistory]
+}
+
+extend type Query {
+    getChapterContentById(chapterId:Int): String
+}

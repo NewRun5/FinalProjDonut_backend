@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.donut.user.UserMapper">
+    <select id="findUserByUserId" resultType="com.donut.user.UserDTO">
+        SELECT
+            ID,
+            NICKNAME,
+            EMAIL,
+            SIGNUP_DATE,
+            LEAVE_DATE
+        FROM
+            USER
+        WHERE
+            ID = #{userId}
+    </select>
+</mapper>
