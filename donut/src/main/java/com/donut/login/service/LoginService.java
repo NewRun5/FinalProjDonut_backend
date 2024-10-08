@@ -21,6 +21,7 @@ public class LoginService {
     public boolean authenticate(String userId, String password) {
         // 데이터베이스에서 사용자 정보 조회
         LoginDTO user = loginMapper.findUserByUserId(userId);
+        System.out.println(user.getPassword());
         if (user == null) {
             throw new CustomException("User not found", HttpStatus.NOT_FOUND.value());
         }

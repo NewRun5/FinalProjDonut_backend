@@ -34,9 +34,10 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/graphql").permitAll()  // GraphQL 허용
+                        .requestMatchers("/graphql", "/ws-generate-curriculum", "/ws-chat").permitAll()  // WebSocket 엔드포인트 허용
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(formLogin -> formLogin.disable())
                 .logout(logout -> logout
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))

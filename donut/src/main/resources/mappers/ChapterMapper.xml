@@ -11,6 +11,14 @@
         WHERE
             ID = #{chapterId}
     </update>
+    <update id="updateCompleteDate">
+        UPDATE
+            CHAPTER
+        SET
+            COMPLETE_DATE = #{currentTime}
+        WHERE
+            ID = #{chapterId}
+    </update>
     <select id="getChapterById" resultType="com.donut.chapter.ChapterDTO">
         SELECT
             ID,

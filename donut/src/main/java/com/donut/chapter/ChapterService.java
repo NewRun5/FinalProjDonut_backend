@@ -12,7 +12,9 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.OpenAiImageModel;
 import org.springframework.ai.openai.OpenAiImageOptions;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
@@ -51,6 +53,17 @@ public class ChapterService {
             return result;
         } else {
             return "오류 발생";
+        }
+    }
+
+    @Transactional
+    public LocalDate updateCompleteDate(int chapterId) {
+        LocalDate current = LocalDate.now();
+        int result = mapper.updateCompleteDate(Map.of("currentTime", current, "chapterId",chapterId));
+        if (result > 0) {
+            return current;
+        } else {
+            throw new IllegalStateException("업데이트 실패");
         }
     }
 }

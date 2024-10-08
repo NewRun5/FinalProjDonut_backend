@@ -50,7 +50,7 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
             System.out.println(history.getMessageType().getValue());
             chatHistoryList.add(new ChatHistory(history.getMessageType().getValue(), history.getContent()));
         });
-
+//        String generation = component.getChatResponseByMemory(memory).getContent();
 
         Curriculum curriculum = null;
         String generation = "정보 수집 완료";
@@ -72,8 +72,8 @@ public class CurriculumChatbotWebSocketHandler extends TextWebSocketHandler {
             nonCurriculum.setComment(generation);
             generation = jsonUtil.jsonStringify(nonCurriculum);
         }
-        AssistantMessage gen = new AssistantMessage(generation);
-        memory.save(gen);
+            AssistantMessage gen = new AssistantMessage(generation);
+            memory.save(gen);
         session.sendMessage(new TextMessage(generation));
     }
 }

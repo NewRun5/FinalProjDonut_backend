@@ -12,3 +12,6 @@ type Chapter {
 extend type Query {
     getChapterContentById(chapterId:Int): String
 }
+extend type Mutation {
+    updateCompleteDate(chapterId:Int):LocalDate
+}

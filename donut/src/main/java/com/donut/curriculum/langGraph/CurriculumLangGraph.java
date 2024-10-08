@@ -77,7 +77,9 @@ public class CurriculumLangGraph {
     private Map<String, Object> generateSearchQuery(CurriculumState state) {
         List<ChatHistory> chatHistoryList = state.chatHistoryList();
         List<String> searchQueryList = service.generateSearchQuery(chatHistoryList);
-        System.out.println("생성된 검색어 수 : " + searchQueryList.size());
+        for (String query : searchQueryList) {
+            System.out.println(query);
+        }
         List<Map<String, Object>> searchResult = new ArrayList<>();
         for (String query : searchQueryList) {
             List<Map<String, Object>> result = service.searchDocument(query);
