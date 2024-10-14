@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Curriculum implements Serializable {
+public class GenCurriculum implements Serializable {
     @JsonPropertyDescription("커리큘럼의 제목입니다.")
     private String title;
     @JsonPropertyDescription("소제목입니다.")
@@ -18,6 +18,4 @@ public class Curriculum implements Serializable {
     private List<Chapter> chapterList;
     @JsonPropertyDescription("만들어진 커리큘럼에 대한 당신의 코멘트입니다.")
     private String comment;
-    @JsonPropertyDescription("ignore")
-    private boolean isRagUsed;
 }

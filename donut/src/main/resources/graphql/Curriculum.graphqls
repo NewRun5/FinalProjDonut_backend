@@ -1,6 +1,5 @@
 type Curriculum {
     id: ID!
-    userId: Int!
     title: String!
     description: String!
     imagePath: String
@@ -9,13 +8,11 @@ type Curriculum {
     completeDate: LocalDate
     deleteDate: LocalDate
     chapterList: [Chapter]
-    isRagUsed: Boolean
 }
 input insertCurriculum{
     title: String!
     description: String!
     chapterList: [insertCurriculumChapterList]!
-    isRagUsed: Boolean!
 }
 input insertCurriculumChapterList {
     title: String!
@@ -27,4 +24,5 @@ extend type Mutation {
 }
 extend type Query {
     getCurriculumById(id: Int!): Curriculum
+    getCurriculumListBySession: [Curriculum]
 }

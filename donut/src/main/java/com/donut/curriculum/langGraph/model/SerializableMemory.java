@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Setter
 @Getter
 @AllArgsConstructor
-public class ChatHistory implements Serializable {
-    private String sender;
+public class SerializableMemory implements Serializable {
+    private Sender sender;
     private String message;
 
     @Override

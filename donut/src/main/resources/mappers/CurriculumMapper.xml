@@ -26,12 +26,13 @@
         <result property="description" column="chapter_description" />
         <result property="content" column="chapter_content" />
         <result property="summaryNote" column="chapter_summaryNote" />
+        <result property="createDate" column="chapter_createDate" />
         <result property="completeDate" column="chapter_completeDate" />
     </resultMap>
 
     <!-- 커리큘럼 저장 -->
     <insert id="saveCurriculum" parameterType="com.donut.curriculum.CurriculumDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO curriculum (user_id, title, description, image_path, progress, create_date)
+        INSERT INTO Curriculum (user_id, title, description, image_path, progress, create_date)
         VALUES (#{userId}, #{title}, #{description}, #{imagePath}, #{progress}, #{createDate})
     </insert>
 
@@ -67,10 +68,34 @@
             ch.description as chapter_description,
             ch.content as chapter_content,
             ch.summary_Note as chapter_summaryNote,
+            ch.create_Date as chapter_createDate,
             ch.complete_Date as chapter_completeDate
-        FROM curriculum c
+        FROM Curriculum c
             LEFT JOIN chapter ch ON c.id = ch.curriculum_id
         WHERE c.id = #{id}
+    </select>
+    <select id="getCurriculumListByUserId" resultMap="CurriculumResultMap">
+        SELECT
+            c.id as id,
+            c.user_id as user_id,
+            c.title as title,
+            c.description as description,
+            c.image_path as image_path,
+            c.progress as progress,
+            c.create_date as create_date,
+            c.complete_date as complete_date,
+            c.delete_date as delete_date,
+                ch.id as chapter_id,
+                ch.title as chapter_title,
+                ch.goal as chapter_goal,
+                ch.description as chapter_description,
+                ch.content as chapter_content,
+                ch.summary_Note as chapter_summaryNote,
+                ch.create_Date as chapter_createDate,
+                ch.complete_Date as chapter_completeDate
+        FROM Curriculum c
+        LEFT JOIN chapter ch ON c.id = ch.curriculum_id
+        WHERE c.user_id = #{userId}
     </select>
 
 </mapper>

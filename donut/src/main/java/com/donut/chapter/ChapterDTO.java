@@ -16,5 +16,6 @@ public class ChapterDTO implements Serializable {
     private String description;
     private String content;
     private String summaryNote;
+    private LocalDate createDate;
     private LocalDate completeDate;
 }

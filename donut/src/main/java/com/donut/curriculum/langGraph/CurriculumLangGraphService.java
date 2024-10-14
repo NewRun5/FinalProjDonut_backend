@@ -1,16 +1,19 @@
 package com.donut.curriculum.langGraph;
 
 import com.donut.common.gson.JsonUtil;
+import com.donut.common.search.CurriculumSearchService;
 import com.donut.common.search.DocumentSearchService;
 import com.donut.common.utils.ChatBotComponent;
 import com.donut.common.utils.ChatBotMemory;
 import com.donut.common.utils.PromptLoader;
-import com.donut.curriculum.langGraph.model.ChatHistory;
-import com.donut.curriculum.langGraph.model.UserNeeds;
-import com.donut.curriculum.langGraph.model.Curriculum;
+import com.donut.curriculum.langGraph.model.GenCurriculum;
+import com.donut.curriculum.langGraph.model.InputComment;
+import com.donut.curriculum.langGraph.model.SerializableMemory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,71 +25,55 @@ public class CurriculumLangGraphService {
     private final JsonUtil jsonUtil;
     private final ChatBotComponent component;
     private final DocumentSearchService searchService;
-    public UserNeeds isEnoughUserInput(List<ChatHistory> chatHistoryList) {
+    private final CurriculumSearchService curriculumSearchService;
 
-        String prompt = promptLoader.get("isEnoughUserInput");
-
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-
-        return (UserNeeds) component.getStructuredOutputByMemory(memory, UserNeeds.class);
-    }
-
-    public String needMoreInput(List<ChatHistory> chatHistoryList, UserNeeds userNeeds) {
-        String prompt = promptLoader.get("needMoreInput", Map.of("context", jsonUtil.jsonStringify(userNeeds)));
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-        return component.getChatResponseByMemory(memory).getContent();
-    }
-
-    public List<String> generateSearchQuery(List<ChatHistory> chatHistoryList) {
-        String prompt = promptLoader.get("generateSearchQuery");
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-        String[] array = (String[]) component.getStructuredOutputByMemory(memory, String[].class);
-        return Arrays.asList(array);
-    }
-
-    public List<Map<String, Object>> searchDocument(String query) {
-        List<Map<String, Object>> result = searchService.hybridSearch(query);
-        List<Map<String, Object>> result2 = result.stream().filter(m -> (double)m.get("score") > 0.75).toList();
-        System.out.println("검색 결과 수" + result.size());
-        System.out.println("필터링 결과" + result2.size());
-        return result2;
-    }
-
-    public String isUsefulData(List<Map<String, Object>> documents, List<ChatHistory> chatHistoryList) {
-        String prompt = promptLoader.get("isUsefulData", Map.of("context", jsonUtil.jsonStringify(documents)));
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-
-        int tried = 0;
-        while (tried < 5){
-            String isUseful = component.getChatResponseWithSysMsg(prompt, jsonUtil.jsonStringify(chatHistoryList)).getContent();
-            System.out.println("판단 결과 :" + isUseful);
-            if (isUseful.equals("true") || isUseful.equals("false")){
-                return isUseful;
-            }
-            tried++;
+    public String isWantNewCurriculum(List<SerializableMemory> memory) {
+        String result = "";
+        String prompt = promptLoader.get("isWantNewCurriculum");
+        int parseTryCount = 0;
+        while (parseTryCount < 7) {
+            result = component.getChatResponseByMemoryWithSysMsg(ChatBotMemory.of(memory), prompt).getContent();
+            if(result.equals("true")) return result;
+            if(result.equals("false")) return result;
+            parseTryCount++;
         }
-        System.out.println("파싱 실패");
+        System.out.println("파싱실패");
         return "false";
     }
 
-    public Curriculum generateCurriculumUseRag(List<Map<String, Object>> documents, List<ChatHistory> chatHistoryList) {
-        String prompt = promptLoader.get("generateCurriculumUseRag", Map.of("context", jsonUtil.jsonStringify(documents)));
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-        Curriculum result = (Curriculum)component.getStructuredOutputByMemory(memory, Curriculum.class);
-        System.out.println(result);
+    public GenCurriculum fixCurriculum(List<SerializableMemory> chatHistory) {
+        String prompt = promptLoader.get("fixCurriculum");
+        GenCurriculum genCurriculum = component.getStructuredOutputByMemory(ChatBotMemory.of(chatHistory), prompt, GenCurriculum.class);
+        return genCurriculum;
+    }
+
+    public InputComment genInputComment(List<SerializableMemory> chatHistory) {
+        String prompt = promptLoader.get("genInputComment");
+        ChatBotMemory memory = ChatBotMemory.of(chatHistory);
+        memory.getHistory().add(0, new SystemMessage(prompt));
+        InputComment result = component.getStructuredOutputByMemory(memory, InputComment.class);
         return result;
     }
 
-    public Curriculum generateCurriculumNotUseRag(List<ChatHistory> chatHistoryList) {
-        String prompt = promptLoader.get("generateCurriculumNotUseRag");
-        ChatBotMemory memory = new ChatBotMemory(prompt);
-        memory.convert(chatHistoryList);
-        Curriculum result = (Curriculum) component.getStructuredOutputByMemory(memory, Curriculum.class);
-        System.out.println(result);
+    public List<Map<String, Object>> hybridSearch(List<SerializableMemory> chatHistory) {
+        String prompt = promptLoader.get("genSearchQuery");
+        ChatBotMemory memory = ChatBotMemory.of(chatHistory);
+        memory.getHistory().add(0, new SystemMessage(prompt));
+        String[] searchQuery = component.getStructuredOutputByMemory(memory, String[].class);
+        List<Map<String, Object>> result = new ArrayList<>();
+        Arrays.stream(searchQuery).forEach(query->{
+            List<Map<String, Object>> searchResult = curriculumSearchService.hybridSearch(query);
+            result.addAll(searchResult);
+        });
+        System.out.println("참고용 커리큘럼" + result.size());
+        return result;
+    }
+
+    public GenCurriculum genCurriculum(List<Map<String, Object>> documentList, List<SerializableMemory> chatHistory) {
+        String prompt = promptLoader.get("genCurriculum", Map.of("context", jsonUtil.jsonStringify(documentList)));
+        ChatBotMemory memory = ChatBotMemory.of(chatHistory);
+        memory.getHistory().add(0, new SystemMessage(prompt));
+        GenCurriculum result = component.getStructuredOutputByMemory(memory, GenCurriculum.class);
         return result;
     }
 }

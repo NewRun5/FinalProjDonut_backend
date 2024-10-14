@@ -1,11 +1,23 @@
 type User {
     id: ID!
-    password: String!
     nickname: String!
     email: String
     signupDate: LocalDate
-    curriculums: [Curriculum]
+}
+input registerInput{
+    id: String!
+    password: String!
+    nickname: String!
+    email: String!
 }
 extend type Query {
-    getUserByUserId(userId: String):User
+    getUserBySession:User
+}
+extend type Mutation {
+    registerUser(input:registerInput):Boolean
+    sendVerificationCode(email:String):Boolean
+    sendVerificationEmail(email:String, code:String):Boolean
+    login(userId: String!, password: String!): String
+    logout: Boolean
+    checkSession: String
 }

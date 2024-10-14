@@ -1,16 +1,13 @@
 type Chapter {
     id: ID!
     title: String!
-    description: String!
-    goal: String!
-    content: String
-    summaryNote: String
-    completeDate: LocalDate
-    chatHistories: [ChatHistory]
+    createDate: LocalDate!
+    chatList:[ChatHistory]
 }
 
 extend type Query {
     getChapterContentById(chapterId:Int): String
+    getAllChapters:[Chapter]
 }
 extend type Mutation {
     updateCompleteDate(chapterId:Int):LocalDate

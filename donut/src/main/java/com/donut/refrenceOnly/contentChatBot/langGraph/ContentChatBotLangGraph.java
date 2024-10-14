@@ -22,11 +22,11 @@ public class ContentChatBotLangGraph {
         return new StateGraph<>(ContentState::new)
                 .addNode("genSearchQuery", node_async(this::genSearchQuery))
                 .addNode("hybridSearchQuery", node_async(this::hybridSearchQuery))
-                .addNode("genHTML", node_async(this::genHTML))
+                .addNode("genReport", node_async(this::genReport))
                 .addEdge(START, "genSearchQuery")
                 .addEdge("genSearchQuery", "hybridSearchQuery")
-                .addEdge("hybridSearchQuery", "genHTML")
-                .addEdge("genHTML", END);
+                .addEdge("hybridSearchQuery", "genReport")
+                .addEdge("genReport", END);
     }
 
 
@@ -45,7 +45,7 @@ public class ContentChatBotLangGraph {
         System.out.println("완료");
         return mapOf("documents", documents);
     }
-    private Map<String, Object> genHTML(ContentState state){
+    private Map<String, Object> genReport(ContentState state){
         List<Map<String, Object>> documents = state.documents();
         String userQuery = state.userQuery();
         String HTMLCode = service.genHTML(documents, userQuery);

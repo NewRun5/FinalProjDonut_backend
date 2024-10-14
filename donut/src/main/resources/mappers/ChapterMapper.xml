@@ -3,6 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.donut.chapter.ChapterMapper">
+    <resultMap id="CurriculumResultMap" type="com.donut.curriculum.CurriculumDTO">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="title" column="title" />
+        <result property="description" column="description" />
+        <result property="imagePath" column="image_path" />
+        <result property="progress" column="progress" />
+        <result property="createDate" column="create_date" javaType="java.time.LocalDate" />
+        <result property="completeDate" column="complete_date" javaType="java.time.LocalDate" />
+        <result property="deleteDate" column="delete_date" javaType="java.time.LocalDate" />
+        <collection property="chapterList" ofType="com.donut.chapter.ChapterDTO" resultMap="ChapterResultMap" />
+    </resultMap>
+
+    <!-- Chapter ResultMap -->
+    <resultMap id="ChapterResultMap" type="com.donut.chapter.ChapterDTO">
+        <id property="id" column="chapter_id" />
+        <result property="title" column="chapter_title" />
+        <result property="goal" column="chapter_goal" />
+        <result property="description" column="chapter_description" />
+        <result property="content" column="chapter_content" />
+        <result property="summaryNote" column="chapter_summaryNote" />
+        <result property="createDate" column="chapter_createDate" />
+        <result property="completeDate" column="chapter_completeDate" />
+    </resultMap>
+
+    <resultMap id="ChapResultMap" type="com.donut.chapter.questionChatBot.Chap">
+        <!-- 단일 컬럼 맵핑 -->
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="user_id" property="userId" />
+        <result column="create_date" property="createDate" />
+
+        <!-- ChatHistoryDTO를 리스트로 맵핑 -->
+        <collection property="chatList" ofType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
+            <id column="chat_id" property="id" />
+            <result column="chapter_id" property="chapterId" />
+            <result column="content" property="content" />
+            <result column="is_user" property="isUser" />
+            <result column="chat_create_date" property="createDate" />
+        </collection>
+    </resultMap>
+
     <update id="updateChapterContent">
         UPDATE
             CHAPTER
@@ -19,6 +61,14 @@
         WHERE
             ID = #{chapterId}
     </update>
+    <update id="updateCreateDate">
+        UPDATE
+            CHAPTER
+        SET
+            CREATE_DATE = #{currentTime}
+        WHERE
+            ID = #{chapterId}
+    </update>
     <select id="getChapterById" resultType="com.donut.chapter.ChapterDTO">
         SELECT
             ID,
@@ -28,10 +78,56 @@
             GOAL,
             CONTENT,
             SUMMARY_NOTE,
+            CREATE_DATE,
             COMPLETE_DATE
         FROM
             CHAPTER
         WHERE
             id = #{chapterId}
+    </select>
+    <select id="getCurriculumByChapterId" resultMap="CurriculumResultMap">
+        SELECT
+            c.id AS id,
+            c.user_id AS user_id,
+            c.title AS title,
+            c.description AS description,
+            c.image_path AS image_path,
+            c.progress AS progress,
+            c.create_date AS create_date,
+            c.complete_date AS complete_date,
+            c.delete_date AS delete_date,
+                ch.id AS chapter_id,
+                ch.title AS chapter_title,
+                ch.goal AS chapter_goal,
+                ch.description AS chapter_description,
+                ch.content AS chapter_content,
+                ch.summary_Note AS chapter_summaryNote,
+                ch.create_Date AS chapter_createDate,
+                ch.complete_Date AS chapter_completeDate
+        FROM
+            CURRICULUM c
+        LEFT JOIN
+            CHAPTER ch ON c.id = ch.curriculum_id
+        WHERE
+            c.id = (
+                SELECT CURRICULUM_ID
+                FROM CHAPTER
+                WHERE ID = #{chapterId}
+            )
+    </select>
+    <select id="getAllChapterByUserId" resultMap="ChapResultMap">
+        SELECT
+            c.id AS id,
+            c.title AS title,
+            c.user_id AS user_id,
+            c.create_date AS create_date,
+                ch.id AS chat_id,
+                ch.chapter_id AS chapter_id,
+                ch.content AS content,
+                ch.is_user AS is_user,
+                ch.create_date AS chat_create_date
+        FROM CHAPTER c
+            LEFT JOIN CHAT_HISTORY ch ON c.id = ch.chapter_id
+        WHERE c.user_id = #{userId}
     </select>
 </mapper>

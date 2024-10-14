@@ -3,6 +3,7 @@ package com.donut.chapter.questionChatBot;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,4 +18,6 @@ public interface ChatHistoryMapper {
     List<ChatHistoryDTO> getAllChatHistories();
 
     List<ChatHistoryDTO> getChatHistoryByChapterIdWithDate(int chapterId, String fromDate, String toDate);
+
+    int insertChapterByUserId(Chap chap);
 }

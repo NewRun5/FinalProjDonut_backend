@@ -1,6 +1,8 @@
 package com.donut.chapter.langGraph;
 
 import com.donut.chapter.ChapterDTO;
+import com.donut.chapter.langGraph.model.SearchQueries;
+import com.donut.chapter.langGraph.model.SelfFeedback;
 import org.bsc.langgraph4j.state.AgentState;
 
 import java.util.ArrayList;
@@ -16,28 +18,28 @@ public class ChapterContentState extends AgentState {
         Optional<ChapterDTO> result = value("chapter");
         return result.orElse(null);
     }
-    public String[] searchQuery(){
-        Optional<String[]> result = value("searchQuery");
-        return result.orElse(new String[0]);
+    public String beforeContent(){
+        Optional<String> result = value("beforeContent");
+        return result.orElse(null);
+    }
+    public SearchQueries searchQueries(){
+        Optional<SearchQueries> result = value("searchQueries");
+        return result.orElse(null);
     }
     public List<Map<String, Object>> documentList(){
         Optional<List<Map<String, Object>>> result = value("documentList");
         return result.orElse(new ArrayList<>());
     }
-    public String[] searchImgQuery(){
-        Optional<String[]> result = value("searchImgQuery");
-        return result.orElse(new String[0]);
+    public List<Map<String, Object>> imageList(){
+        Optional<List<Map<String, Object>>> result = value("imageList");
+        return result.orElse(new ArrayList<>());
     }
-    public String contentPrototype(){
-        Optional<String> result = value("contentPrototype");
+    public SelfFeedback selfFeedback(){
+        Optional<SelfFeedback> result = value("selfFeedback");
         return result.orElse(null);
     }
-    public String content(){
-        Optional<String> result = value("content");
-        return result.orElse(null);
-    }
-    public List<Map<String, Object>> imageDataList(){
-        Optional<List<Map<String, Object>>> result = value("imageDataList");
+    public String genContent(){
+        Optional<String> result = value("genContent");
         return result.orElse(null);
     }
 }
