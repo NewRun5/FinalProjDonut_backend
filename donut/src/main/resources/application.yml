@@ -42,7 +42,7 @@ spring:
       api-key: ${OPENAI_API_KEY}  # 환경변수로 관리
       chat:
         options:
-          model: gpt-4o-mini
+          model: gpt-4o
       embedding:
         options:
           model: text-embedding-3-small

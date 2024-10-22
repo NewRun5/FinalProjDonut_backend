@@ -36,7 +36,7 @@ public class QuestionLangGraphService {
         documentSearchQueryList.forEach(query->{
             result.addAll(documentSearchService.hybridSearch(query));
         });
-        List<Map<String, Object>> filterResult = result.stream().filter(doc -> (double)doc.get("score") > 0.9).toList();
+        List<Map<String, Object>> filterResult = result.stream().filter(doc -> (double)doc.get("score") > 0.8).toList();
         return filterResult;
     }
 
@@ -45,7 +45,7 @@ public class QuestionLangGraphService {
         imageSearchQuery.forEach(query->{
             result.addAll(imageSearchService.hybridSearch(query));
         });
-        List<Map<String, Object>> filterResult = result.stream().filter(doc -> (double)doc.get("score") > 0.85).toList();
+        List<Map<String, Object>> filterResult = result.stream().filter(doc -> (double)doc.get("score") > 0.7).toList();
         return filterResult;
     }
 

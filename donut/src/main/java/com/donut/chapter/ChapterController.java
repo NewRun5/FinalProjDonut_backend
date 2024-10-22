@@ -43,8 +43,8 @@ public class ChapterController {
     }
     @QueryMapping
     public List<Chap> getAllChapters(){
-//        String userId = (String) session.getAttribute("user");
-        String userId="account";
+        String userId = (String) session.getAttribute("user");
+//        String userId="account";
         List<Chap> result = service.getAllChapterByUserId(userId);
         return result;
     }
