@@ -1,8 +1,4 @@
 type Query{}
 type Mutation{
     inputFileTest(file: Base64File): Boolean
-
-    # 로그인
-    login(userId: String!, password: String!): Boolean
-    logout: Boolean
 }

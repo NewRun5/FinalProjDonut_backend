@@ -26,25 +26,21 @@ public class TMMComponent
     @Autowired
     EmbeddingModel embeddingModel;
 
-    public double getTMMVectorScore(double vectorScore)
-    {
+    public double getTMMVectorScore(double vectorScore) {
         return (vectorScore + 1) / 2.0;
     }
 
-    public double getTMMBM25Score(double bm25Score)
-    {
+    public double getTMMBM25Score(double bm25Score) {
         return Math.min((bm25Score - bm25MinValue) / (bm25MaxValue - bm25MinValue)
                 , 1.0);
     }
 
-    public double getConvexScore(double vectorScore, double bm25Score)
-    {
+    public double getConvexScore(double vectorScore, double bm25Score) {
         return vectorScoreWeight * getTMMVectorScore(vectorScore)
                 + getTMMBM25Score(bm25Score) * textScoreWeight;
     }
 
-    public double getVectorScore(String query, String content)
-    {
+    public double getVectorScore(String query, String content) {
         List<Double> list1 = embeddingModel.embed(query);
         List<Double> list2 = embeddingModel.embed(content);
 

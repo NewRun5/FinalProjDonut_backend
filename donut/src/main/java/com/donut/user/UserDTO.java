@@ -15,6 +15,7 @@ public class UserDTO {
     private String id;
     private String password;
     private String nickname;
+    private String role;
     private String email;
     private LocalDate signupDate;
     private List<CurriculumDTO> curriculums;

@@ -6,17 +6,16 @@
 <!--    getChatHistoryByChapterId-->
     <select id="getChatHistoryByChapterId" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">
         SELECT
-        ID,
-        CHAPTER_ID,
-        CONTENT,
-        IS_USER,
-        CREATE_DATE
+            ID,
+            CHAPTER_ID,
+            CONTENT,
+            IS_USER,
+            CREATE_DATE
         FROM
-        CHAT_HISTORY
+            CHAT_HISTORY
         WHERE
         CHAPTER_ID = #{chapterId}
-        AND IS_USER = 1  <!-- 사용자가 작성한 대화만 가져옴 -->
-        ORDER BY
+            ORDER BY
         CREATE_DATE ASC;
     </select>
     <insert id="saveQuestionAndAnswer" parameterType="hashmap">
@@ -26,6 +25,11 @@
             (#{chapterId}, #{request}, true),
             (#{chapterId}, #{response}, false);
     </insert>
+    <insert id="insertChapterByUserId" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CHAPTER (USER_ID, CREATE_DATE, TITLE)
+        VALUES (#{userId}, #{createDate}, #{title})
+    </insert>
+
 
     <!-- 새로운 getChatHistoryByDate 쿼리: 날짜 기준으로 ChatHistory를 가져오는 쿼리 -->
     <select id="getChatHistoryByDate" resultType="com.donut.chapter.questionChatBot.ChatHistoryDTO">

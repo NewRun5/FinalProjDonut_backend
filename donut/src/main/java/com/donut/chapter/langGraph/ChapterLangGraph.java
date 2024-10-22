@@ -1,15 +1,22 @@
 package com.donut.chapter.langGraph;
 
 import com.donut.chapter.ChapterDTO;
+import com.donut.chapter.langGraph.model.SearchQueries;
+import com.donut.chapter.langGraph.model.SelfFeedback;
+import com.donut.common.search.DocumentSearchService;
+import com.donut.common.search.ImageSearchService;
 import lombok.RequiredArgsConstructor;
 import org.bsc.langgraph4j.StateGraph;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import static org.bsc.langgraph4j.StateGraph.END;
 import static org.bsc.langgraph4j.StateGraph.START;
+import static org.bsc.langgraph4j.action.AsyncEdgeAction.edge_async;
 import static org.bsc.langgraph4j.action.AsyncNodeAction.node_async;
 import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
 
@@ -17,61 +24,70 @@ import static org.bsc.langgraph4j.utils.CollectionsUtils.mapOf;
 @RequiredArgsConstructor
 public class ChapterLangGraph {
     private final ChapterLangGraphService service;
+    private final ImageSearchService imageSearchService;
+    private final DocumentSearchService documentSearchService;
+
     public StateGraph<ChapterContentState> buildGraph() throws Exception{
         return new StateGraph<>(ChapterContentState::new)
-                .addNode("genDocumentSearchQuery", node_async(this::genDocumentSearchQuery))
-                .addNode("documentSearch", node_async(this::documentSearch))
-                .addNode("genContentPrototype", node_async(this::genContentPrototype))
-                .addNode("genImageSearchQuery", node_async(this::genImageSearchQuery))
-                .addNode("imageSearch", node_async(this::imageSearch))
+                .addNode("genSearchQueries", node_async(this::genSearchQueries))
+                .addNode("hybridSearch", node_async(this::hybridSearch))
                 .addNode("genContent", node_async(this::genContent))
-                /* 문서 기본 내용 만들기 */
-                .addEdge(START, "genDocumentSearchQuery")
-                .addEdge("genDocumentSearchQuery", "documentSearch")
-                .addEdge("documentSearch", "genContentPrototype")
-                .addEdge("genContentPrototype", "genImageSearchQuery")
-                /* 있으면 좋을 것 같은 이미지 검색 */
-                .addEdge("genImageSearchQuery", "imageSearch")
-                .addEdge("imageSearch", "genContent")
-                .addEdge("genContent", END);
+                .addNode("selfTest", node_async(this::selfTest))
+                .addEdge(START, "genSearchQueries")
+                .addEdge("genSearchQueries", "hybridSearch")
+                .addEdge("hybridSearch", "genContent")
+                .addEdge("genContent", "selfTest")
+                .addConditionalEdges("selfTest", edge_async(this::testScore),
+                        mapOf("true", END,
+                                "false", "genContent"));
+
     }
 
-    private Map<String, Object> genDocumentSearchQuery(ChapterContentState state) {
+    private String testScore(ChapterContentState state) {
+        SelfFeedback feedback = state.selfFeedback();
+        if(feedback.getScore() >= 90){
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
+    private Map<String, Object> genSearchQueries(ChapterContentState state) {
         ChapterDTO chapter = state.chapter();
-        String[] searchQuery = service.genDocumentSearchQuery(chapter);
-        return mapOf("searchQuery", searchQuery);
+        SearchQueries searchQueries = service.genSearchQueries(chapter);
+        return mapOf("searchQueries", searchQueries);
     }
+    private Map<String, Object> hybridSearch(ChapterContentState state) {
 
-    private Map<String, Object> documentSearch(ChapterContentState state) {
-        String[] searchQuery = state.searchQuery();
-        List<Map<String, Object>> documentList = service.documentSearch(searchQuery);
-        return mapOf("documentList", documentList);
-    }
+        SearchQueries searchQueries = state.searchQueries();
+        List<Map<String, Object>> documentSearchResult = service.searchDocument(searchQueries.getDocumentSearchQuery());
+        List<Map<String, Object>> imageSearchResult = service.searchImage(searchQueries.getDocumentSearchQuery());
 
-    private Map<String, Object> genContentPrototype(ChapterContentState state) {
-        List<Map<String, Object>> documentList = state.documentList();
-        ChapterDTO chapter = state.chapter();
-        String contentPrototype = service.genContentPrototype(documentList, chapter);
-        return mapOf("contentPrototype", contentPrototype);
-    }
-
-    private Map<String, Object> genImageSearchQuery(ChapterContentState state) {
-        String contentPrototype = state.contentPrototype();
-        String[] searchImgQuery = service.genSearchImgQuery(contentPrototype);
-        return mapOf("searchImgQuery", searchImgQuery);
-    }
-
-    private Map<String, Object> imageSearch(ChapterContentState state) {
-        String[] searchImgQuery = state.searchImgQuery();
-        List<Map<String, Object>> imageList = service.imageSearch(searchImgQuery);
-        return mapOf("imageDataList", imageList);
+        return mapOf("documentList", documentSearchResult,
+                "imageList", imageSearchResult);
     }
 
     private Map<String, Object> genContent(ChapterContentState state) {
-        List<Map<String, Object>> imageList = state.imageDataList();
-        List<Map<String, Object>> documentList = state.documentList();
+        List<Map<String, Object>> documentSearchResult = state.documentList();
+        List<Map<String, Object>> imageSearchResult = state.imageList();
         ChapterDTO chapter = state.chapter();
-        String content = service.genContent(chapter, imageList, documentList);
-        return mapOf("content", content);
+        String beforeContent = state.beforeContent();
+        SelfFeedback feedback = state.selfFeedback();
+        String genContent;
+        if(feedback == null){
+            genContent = service.genContent(chapter, beforeContent, documentSearchResult, imageSearchResult);
+        } else {
+            String content = state.genContent();
+            genContent = service.genContentByFeedback(chapter, beforeContent, documentSearchResult, imageSearchResult, content, feedback);
+        }
+        return Map.of("genContent", genContent);
+    }
+
+    private Map<String, Object> selfTest(ChapterContentState state) {
+        String genContent = state.genContent();
+        String beforeContent = state.beforeContent();
+        ChapterDTO chapter = state.chapter();
+        SelfFeedback selfFeedback = service.selfTest(genContent, beforeContent, chapter);
+        return mapOf("selfFeedback", selfFeedback);
     }
 }

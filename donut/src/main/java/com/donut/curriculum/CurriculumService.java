@@ -3,8 +3,11 @@ package com.donut.curriculum;
 import com.donut.common.gson.JsonUtil;
 import com.donut.common.utils.ChatBotComponent;
 import com.donut.common.utils.FileUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.image.ImageResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -16,6 +19,7 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,12 +30,13 @@ public class CurriculumService {
     private final ChatBotComponent component;
     private final JsonUtil jsonUtil;
     private final FileUtil fileUtil;
-
+    private final HttpSession session;
     @Transactional
     public Integer saveCurriculum(CurriculumDTO request) {
         // 커리큘럼 생성 날짜 설정
+
         request.setCreateDate(LocalDate.now());
-        request.setUserId("account");
+        request.setUserId((String) session.getAttribute("user"));
         request.setProgress((float) 0);
         // 커리큘럼 저장
         mapper.saveCurriculum(request);
@@ -53,10 +58,10 @@ public class CurriculumService {
     @Transactional
     public CurriculumDTO getCurriculumById(Integer id) {
         CurriculumDTO result = mapper.getCurriculumById(id);
-        if(result.getImagePath() == null){
-            String imagePath = generateImage(result);
-            result.setImagePath(imagePath);
-        }
+//        if(result.getImagePath() == null){
+//            String imagePath = generateImage(result);
+//            result.setImagePath(imagePath);
+//        }
         return result;
     }
     private String generateImage(CurriculumDTO curriculum) {
@@ -80,5 +85,9 @@ public class CurriculumService {
             System.out.println("커리큘럼 이미지 경로 저장 완료");
         }
         return result;
+    }
+
+    public List<CurriculumDTO> getCurriculumListByUserId(String userId) {
+        return mapper.getCurriculumListByUserId(userId);
     }
 }

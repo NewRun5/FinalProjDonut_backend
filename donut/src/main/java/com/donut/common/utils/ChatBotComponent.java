@@ -51,6 +51,14 @@ public class ChatBotComponent {
         memory.save(result);
         return result;
     }
+    public Message getChatResponseByMemoryWithSysMsg(ChatBotMemory memory, String systemMessage) {
+        List<Message> list = memory.getHistory();
+        list.add(0, new SystemMessage(systemMessage));
+        Prompt prompt = new Prompt(list);
+        Message result =  chatModel.call(prompt).getResult().getOutput();
+        memory.save(result);
+        return result;
+    }
 
     /**
      * 시스템 메세지를 가진 1회성 응답을 받기 위한 메소드입니다.

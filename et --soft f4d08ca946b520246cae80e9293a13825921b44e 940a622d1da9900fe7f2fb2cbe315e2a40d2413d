@@ -1,0 +1,388 @@
+[33mcommit a1468cc44c1922aca561c25d69135c8150706a89[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/30-study-done-api[m[33m)[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Oct 11 15:57:36 2024 +0900
+
+    커리큘럼 생성 랭그래프 적용
+
+[33mcommit cac3988c7448b4772ce624750e054d207d9c1896[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Oct 11 04:02:26 2024 +0900
+
+    학습내용 생성 기능 구현
+
+[33mcommit 87ee70b4ba7ad8a52a83aa5a80c4c664317d805c[m
+Merge: 3d169b0 c9c589e
+Author: jun <ahmin030@naver.com>
+Date:   Tue Oct 8 15:35:52 2024 +0900
+
+    Merge branch 'develop' of https://github.com/NewRun5/FinalProjDonut_backend into feature/30-study-done-api
+
+[33mcommit 3d169b0ca701a79e5aa9d48a77fec713cb406301[m
+Author: jun <ahmin030@naver.com>
+Date:   Tue Oct 8 15:35:41 2024 +0900
+
+    commit
+
+[33mcommit c9c589e92d0d7c41317247444bc0be077786dc60[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 0a71c31 f5c1793
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Mon Oct 7 17:47:46 2024 +0900
+
+    Merge pull request #27 from NewRun5/feature/15-genarate-chapter-content
+    
+    #22 이미지 생성
+
+[33mcommit f5c179370431a6e4d1226169825f94d1eb99549f[m[33m ([m[1;31morigin/feature/15-genarate-chapter-content[m[33m, [m[1;32mfeature/15-genarate-chapter-content[m[33m)[m
+Merge: ae07b08 0a71c31
+Author: jun <ahmin030@naver.com>
+Date:   Mon Oct 7 17:07:26 2024 +0900
+
+    Merge branch 'develop' of https://github.com/NewRun5/FinalProjDonut_backend into feature/15-genarate-chapter-content
+    
+    # Conflicts:
+    #       donut/src/main/resources/prompts/content/genSearchQuery.txt
+
+[33mcommit ae07b0827164f1a21045ba0a702457978d9fe23a[m
+Author: jun <ahmin030@naver.com>
+Date:   Mon Oct 7 17:06:32 2024 +0900
+
+    이미지 생성 로직 추가
+
+[33mcommit 0a71c3162979f68978e478d343ed35b2d024a1c3[m
+Merge: 57eb09b d5858c1
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Oct 7 17:01:51 2024 +0900
+
+    Merge pull request #26 from NewRun5/feature/signup
+    
+    Feature/signup
+
+[33mcommit d5858c1f9331ad38608cef3f8a16bd4a758dd162[m
+Merge: f4d08ca 57eb09b
+Author: dsadasddsad <skm5860@gmail.com>
+Date:   Mon Oct 7 16:50:17 2024 +0900
+
+    B
+    Merge branch 'develop' into feature/signup
+
+[33mcommit 57eb09bcac670d61ed3edd8c5e1010ca5a1a3c67[m
+Merge: 30de05b ac4aedb
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Oct 7 15:24:24 2024 +0900
+
+    Merge pull request #24 from NewRun5/feature/login_sk
+    
+    - 시큐리티 코드 최종 추가
+
+[33mcommit ac4aedb6eded24abaaa39dfc693021dae91b5645[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Mon Oct 7 15:11:25 2024 +0900
+
+    - 시큐리티 코드 최종 추가
+
+[33mcommit 30de05b5ab6231a2b644a4103f11daa9d6d668ce[m
+Merge: c04ad26 7f62876
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Oct 7 15:02:57 2024 +0900
+
+    Merge pull request #21 from NewRun5/feature/chat-history
+    
+    [FEATURE][AI][CHAT-HISTORY] 챗봇 대화 내역 DB 저장 및 대화 내역 저장
+
+[33mcommit c04ad2673b42e9d31778db4594b881e176fc3d0d[m
+Merge: 8b36a7d 7375b2c
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Oct 7 15:02:01 2024 +0900
+
+    Merge pull request #19 from NewRun5/feature/login_sk
+    
+    Feature/login sk
+
+[33mcommit 7375b2c973277d72ec04a505ba1a66ae2582bc80[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Mon Oct 7 14:24:23 2024 +0900
+
+    - 시큐리티 추가
+
+[33mcommit 730ca47d2de25f0c4198b00430ca4975bb3e082b[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Mon Oct 7 14:24:16 2024 +0900
+
+    - 시큐리티 추가
+
+[33mcommit f4d08ca946b520246cae80e9293a13825921b44e[m
+Author: dsadasddsad <skm5860@gmail.com>
+Date:   Mon Oct 7 12:22:52 2024 +0900
+
+    첫 번째 커밋
+
+[33mcommit 7f628760e874ac9010538f22e50a0f70f836d1ed[m
+Author: NJH <dldks1212@gmail.com>
+Date:   Mon Oct 7 05:50:16 2024 +0900
+
+    Add graphql queries for chat history
+
+[33mcommit b5ef5aa4deaf421c4c635f19b5de9769c7ee6bb2[m
+Author: NJH <dldks1212@gmail.com>
+Date:   Mon Oct 7 02:39:17 2024 +0900
+
+    Fetch chat history data from DB to Front
+
+[33mcommit 7d82df76430a70824b0358cd9f11098966d265dc[m
+Author: NJH <dldks1212@gmail.com>
+Date:   Sun Oct 6 23:48:10 2024 +0900
+
+    Modify TestWSHandler.java for save chat content to DB and Modify genSearchQuery.txt and HTML.txt
+
+[33mcommit 650113e38f54a610d4e4b749b0959cf1c92fae5b[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Fri Oct 4 17:04:05 2024 +0900
+
+    1.1. 로그인 Mutation 구현
+    1.2. CORS 설정
+
+[33mcommit 2530d8f372995090f77f47e47ebefe39fd691a18[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Fri Oct 4 13:49:56 2024 +0900
+
+    이슈 소폭 수정2
+
+[33mcommit 8b36a7d30bdf27a17fe788e2bd2e5eb2f1e60aa1[m
+Merge: 6ae588d ce63ad1
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Fri Oct 4 13:28:55 2024 +0900
+
+    Merge pull request #17 from NewRun5/feature/15-genarate-chapter-content
+    
+    챕터 생성 프로토타입 완성.
+
+[33mcommit ce63ad1e49f10383e68d8f6212b53e2a233ce39c[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Oct 4 13:26:55 2024 +0900
+
+    학습내용 생성 프로토타입 완성.
+
+[33mcommit 8afcea3242bf20b5e933cfd6f2b72327f105bd75[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Fri Oct 4 13:21:19 2024 +0900
+
+    이슈 소폭 수정
+
+[33mcommit 4f36cc9f4bbfa5d4e49984d77b6d7b8a2feb282e[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Fri Oct 4 13:19:30 2024 +0900
+
+    로그인 기능 구현
+
+[33mcommit 6ae588df3d6d31bbff3ffb24fab71f8796b95030[m
+Merge: 059fef6 bfa89ea
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Fri Oct 4 12:10:24 2024 +0900
+
+    Merge pull request #16 from NewRun5/feature/15-genarate-chapter-content
+    
+    학습 내용 생성 엔드포인트 작성.
+
+[33mcommit bfa89eabb7604d92f408379838ff1bff513242e1[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Oct 4 12:08:36 2024 +0900
+
+    학습 내용 생성 엔드포인트 작성.
+
+[33mcommit 059fef62bc4412e7241b93f3f1227aeb4dcf930e[m
+Merge: 6995b60 8b637c0
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Fri Oct 4 08:10:33 2024 +0900
+
+    Merge pull request #14 from NewRun5/feature/8-genarate-curriculum
+    
+    커리큘럼 생성, 저장, 불러오기 엔드포인트 작성
+
+[33mcommit 8b637c0e896f05e738ad16ab909e521a06331d89[m[33m ([m[1;31morigin/feature/8-genarate-curriculum[m[33m, [m[1;32mfeature/8-genarate-curriculum[m[33m)[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Oct 4 08:07:50 2024 +0900
+
+    커리큘럼 생성, 저장, 불러오기 엔드포인트 작성
+
+[33mcommit 6995b60a69df9cb7e557bd6994db8620286ae6db[m
+Merge: e1d89a7 6ee61bf
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Wed Oct 2 16:46:30 2024 +0900
+
+    Merge pull request #13 from NewRun5/feature/8-genarate-curriculum
+    
+    #8 generate curriculum
+
+[33mcommit 6ee61bf1f2f600acb01a94569353c65bee3898d5[m
+Author: jun <ahmin030@naver.com>
+Date:   Wed Oct 2 16:45:27 2024 +0900
+
+    #8 generate curriculum
+
+[33mcommit e1d89a7a2ccb34f2c855a1e316f1f609a50176ba[m
+Merge: a70855f 18a39a3
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Wed Oct 2 16:32:28 2024 +0900
+
+    Merge pull request #12 from NewRun5/feature/8-genarate-curriculum
+    
+    #8 generate curriculum
+
+[33mcommit 18a39a39fbbcee07cf384edeec884fbfde4f06d4[m
+Author: jun <ahmin030@naver.com>
+Date:   Wed Oct 2 16:31:15 2024 +0900
+
+    #8 generate curriculum
+
+[33mcommit a70855f6ebd3fcb385173bb4de9e58f5e1394841[m
+Merge: af4639d ac37a9e
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Wed Oct 2 16:24:32 2024 +0900
+
+    Merge pull request #11 from NewRun5/feature/9-genarate-document
+    
+    #9 feat
+
+[33mcommit ac37a9ee63dc3845493d011be3869fa5b8e45b96[m[33m ([m[1;31morigin/feature/9-genarate-document[m[33m, [m[1;32mfeature/9-genarate-document[m[33m)[m
+Author: jun <ahmin030@naver.com>
+Date:   Wed Oct 2 16:22:47 2024 +0900
+
+    #9 feat
+    imageSearchTest
+
+[33mcommit af4639d5818b3c5f1c8819bbd1799c86a4e88f23[m
+Merge: 653efdf 215cccb
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Wed Oct 2 15:57:14 2024 +0900
+
+    Merge pull request #10 from NewRun5/feature/9-generate-document
+    
+    문서 생성 작업
+
+[33mcommit 215cccb194c3bb2839190d7a29e18460a71976b3[m
+Author: jun <ahmin030@naver.com>
+Date:   Wed Oct 2 15:52:40 2024 +0900
+
+    #9 feat
+    imageSearchTest
+
+[33mcommit 653efdf34ff1e3fdcde29dd1985647ef051fe512[m[33m ([m[1;32mdevelop[m[33m)[m
+Merge: 1351e9d ef6768b
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Fri Sep 27 13:39:32 2024 +0900
+
+    Merge pull request #7 from NewRun5/feature/6-searchServiceAplly
+    
+    서칭 서비스 적용
+
+[33mcommit ef6768b14a3a1d3611a17fd9130acee83ad4cef0[m
+Author: jun <ahmin030@naver.com>
+Date:   Fri Sep 27 13:38:06 2024 +0900
+
+    set yml and class
+
+[33mcommit 1351e9d0da62a8c30a37709c2b7ab237b66c3a3d[m
+Merge: a306672 fd832c0
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Thu Sep 26 12:37:29 2024 +0900
+
+    Merge pull request #4 from NewRun5/feat/2-addMethod
+    
+    add chatbot component method
+
+[33mcommit a306672828065ae7872c9379c8892f1e4114f6a7[m
+Merge: d72e560 a93446d
+Author: jun-may-6 <ahmin030@naver.com>
+Date:   Thu Sep 26 12:32:47 2024 +0900
+
+    Merge pull request #3 from NewRun5/feat/1-websocket-chatbot
+    
+    websocket-chatbot-memory
+
+[33mcommit fd832c00a8693b7c27acba18a9c813248cc96385[m
+Author: jun <ahmin030@naver.com>
+Date:   Thu Sep 26 12:32:11 2024 +0900
+
+    add chatbot component method
+
+[33mcommit a93446d52e352e566056c8cd90aabda299ea1fa7[m
+Author: jun <ahmin030@naver.com>
+Date:   Wed Sep 25 17:23:29 2024 +0900
+
+    websocket-chatbot-memory
+
+[33mcommit d72e5603990cbe3f1807a97d4f30fa812ab64981[m
+Author: jun <ahmin030@naver.com>
+Date:   Tue Sep 24 19:34:14 2024 +0900
+
+    [ENV][SCALAR]File Scalar
+
+[33mcommit 33fcf389690eb87c663e63f9b745bb1a308433e8[m
+Author: jun <ahmin030@naver.com>
+Date:   Tue Sep 24 14:14:37 2024 +0900
+
+    [ENV][CORS}CORS Setting
+
+[33mcommit 515d26e3db0ce22659d688c82836445ac92c4750[m
+Author: jun <ahmin030@naver.com>
+Date:   Tue Sep 24 13:40:49 2024 +0900
+
+    [UTIL][FILE]Base64FileScalar
+
+[33mcommit 789319ec418b320566648bda4d2c4b8bd9addc87[m
+Author: jun <ahmin030@naver.com>
+Date:   Tue Sep 24 12:50:21 2024 +0900
+
+    [ENV]Configuration setting
+
+[33mcommit 959b29fffdaf071e27fc20902b66642c451563f9[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 12:47:12 2024 +0900
+
+    Update PULL_REQUEST_TEMPLATE.md
+
+[33mcommit f7bd79f23997d911b31e985cc377eb43f51a95a9[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 12:45:53 2024 +0900
+
+    Update PULL_REQUEST_TEMPLATE.md
+
+[33mcommit 436c879fc1efe188002f38e0fb68c7bb6cc08be4[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Mon Sep 2 12:45:06 2024 +0900
+
+    Update README.md
+    
+    -
+
+[33mcommit 5b79ff5022fd61120cd94a43954d687999616500[m
+Author: mynameisjsoook <jsoook1992@gmail.com>
+Date:   Mon Sep 2 12:44:27 2024 +0900
+
+    Create README.md
+    
+    -
+
+[33mcommit a249c2d9a647a3792910182fee44811497bdf32a[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 12:42:36 2024 +0900
+
+    Create PULL_REQUEST_TEMPLATE.md
+
+[33mcommit a13955a372db9ebe84b8d39f5cee6794e17952a6[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 12:38:37 2024 +0900
+
+    Update issue templates
+
+[33mcommit 2f37b5767db66ca4b66da4d3fa79a9d69382555d[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 11:19:31 2024 +0900
+
+    Update issue templates
+
+[33mcommit 940a622d1da9900fe7f2fb2cbe315e2a40d2413d[m
+Author: JYEJYE <73331620+shubiduba1212@users.noreply.github.com>
+Date:   Mon Sep 2 11:06:17 2024 +0900
+
+    Update  bug report issue templates

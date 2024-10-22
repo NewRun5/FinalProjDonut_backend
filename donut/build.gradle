@@ -58,12 +58,16 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.ai:spring-ai-mongodb-atlas-store-spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // JSON
     implementation 'com.google.code.gson:gson:2.10.1'
 
     //씨큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //이메일
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 
     // 테스트

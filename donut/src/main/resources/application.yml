@@ -1,4 +1,18 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: skm5860@gmail.com  # 여기에 이메일 주소
+    password: mtkrbrjqlunwqfzf   # 이메일 애플리케이션 비밀번호 설정 필요 (Google 설정에서 확인 가능)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: smtp.gmail.com
   web:
     resources:
       static-locations: classpath:/static/
@@ -25,38 +39,25 @@ spring:
         path-name: content-embedding
         indexName: vector_index
     openai:
-#      api 키 환경설정 필요
-      api-key: ${OPENAI_API_KEY}
+      api-key: ${OPENAI_API_KEY}  # 환경변수로 관리
       chat:
         options:
-          model: gpt-4o-mini
+          model: gpt-4o
       embedding:
         options:
           model: text-embedding-3-small
       image:
         options:
-          model: "dall-e-3"
-# 마이바티스 설정
+          model: dall-e-3
 mybatis:
   mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-
 hybrid-search:
   tmm:
-#    BM 25 점수가 이론상 무한대  5 이상이면 만점취급
     text-score:
       max-value: 5
       min-value: 0
-      # 만약에 25점 나왔으면 만점 5점도 만점
-
-      # -1 ~ 1    0 ~ 5
-      # 0 ~ 1
-      #
   weight:
-    # 정규화 된 0 ~ 1 점수
-
-    # 시도하면서 찾은 잘 나온 값으로 설정
-    # 키워드에 중점 vs 의미 중점
-    vector-score: 0.5
-    text-score: 0.5
+    vector-score: 0.7
+    text-score: 0.3

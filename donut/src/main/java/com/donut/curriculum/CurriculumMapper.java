@@ -2,6 +2,7 @@ package com.donut.curriculum;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -13,4 +14,6 @@ public interface CurriculumMapper {
     CurriculumDTO getCurriculumById(Integer id);
 
     int saveImagePath(Map<String, String> imagePath);
+
+    List<CurriculumDTO> getCurriculumListByUserId(String userId);
 }

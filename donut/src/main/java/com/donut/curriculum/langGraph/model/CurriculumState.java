@@ -11,29 +11,20 @@ public class CurriculumState extends AgentState {
         super(initData);
     }
 
-    public UserNeeds userNeeds(){
-        Optional<UserNeeds> result = value("userNeeds");
-        return result.orElse(new UserNeeds());
+    public GenCurriculum genCurriculum(){
+        Optional<GenCurriculum> result = value("genCurriculum");
+        return result.orElse(null);
     }
-    public List<ChatHistory> chatHistoryList(){
-        Optional<List<ChatHistory>> result = value("chatHistory");
+    public List<SerializableMemory> chatHistory(){
+        Optional<List<SerializableMemory>> result = value("chatHistory");
         return result.orElse(null);
     }
     public List<Map<String, Object>> documentList(){
         Optional<List<Map<String, Object>>> result = value("documentList");
         return result.orElse(null);
     }
-
-    public Curriculum generatedCurriculum(){
-        Optional<Curriculum> result = value("generatedCurriculum");
+    public InputComment inputComment(){
+        Optional<InputComment> result = value("inputComment");
         return result.orElse(null);
-    }
-    public String generatedMessage(){
-        Optional<String> result = value("generatedMessage");
-        return result.orElse(null);
-    }
-    public boolean isRagUsed(){
-        Optional<Boolean> result = value("isRagUsed");
-        return result.orElse(false);
     }
 }
